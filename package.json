@@ -1,6 +1,6 @@
 {
     "name": "pandagainz",
-    "version": "20.7.719",
+    "version": "20.7.721",
     "description": "Calculate your profit and losses on Bitpanda.",
     "keywords": [
         "bitpanda",
@@ -26,7 +26,7 @@
         "start": "node index.js"
     },
     "dependencies": {
-        "bent": "^7.0.6",
+        "axios": "^0.19.2",
         "anyhow": "^1.4.2",
         "expresser": "^4.1.2",
         "jaul": "^1.2.3",
