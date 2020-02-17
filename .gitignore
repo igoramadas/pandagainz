@@ -1,0 +1,8 @@
+.DS_Store
+.history/
+.vscode/
+coverage/
+lib/
+node_modules/
+npm-debug.log
+settings.private.json
