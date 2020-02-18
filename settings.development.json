@@ -1,0 +1,8 @@
+// SETTINGS DEVELOPMENT
+
+{
+    "app": {
+        // Port in which the server should run on development.
+        "port": 3311
+    }
+}

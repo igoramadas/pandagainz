@@ -19,17 +19,10 @@ docs:
 	rm -rf ./docs/interfaces
 	rm -rf ./docs/modules
 	$(TYPEDOC) --disableOutputCheck
-	cp CNAME docs/
-	cp .nojekyll docs/
-
-publish:
-	$(TSC) --removeComments
-	npm publish
-	$(TSC)
 
 run:
 	$(TSC)
-	node index.js
+	npm start
 
 update:
 	-ncu -u

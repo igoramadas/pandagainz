@@ -1,0 +1,7 @@
+// SETTINGS PRODUCTION
+{
+    "app": {
+        // Port in which the server should run on production.
+        "port": 8080
+    }
+}

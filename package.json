@@ -1,9 +1,11 @@
 {
     "name": "pandagainz",
-    "version": "20.8.121",
+    "version": "20.8.217",
     "description": "Calculate your profit and losses on Bitpanda.",
     "keywords": [
+        "bitcoin",
         "bitpanda",
+        "crypto",
         "fifo",
         "profit",
         "tax"
@@ -12,8 +14,7 @@
     "homepage": "https://pandagainz.devv.com",
     "subdomain": "pandagainz",
     "license": "MIT",
-    "main": "index",
-    "bin": "index.js",
+    "main": "lib/index.js",
     "repository": {
         "type": "git",
         "url": "https://github.com/igoramadas/pandagainz.git"
@@ -23,15 +24,17 @@
     },
     "scripts": {
         "docs": "make docs",
-        "start": "node index.js"
+        "start": "node lib/index.js"
     },
     "dependencies": {
         "axios": "^0.19.2",
         "anyhow": "^1.4.2",
+        "body-parser": "^1.19.0",
         "expresser": "^4.1.2",
         "jaul": "^1.2.3",
         "lodash": "^4.17.15",
         "moment": "^2.24.0",
+        "rate-limiter-flexible": "^2.0.0",
         "setmeup": "^1.3.2"
     },
     "devDependencies": {
