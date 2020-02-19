@@ -4,7 +4,26 @@
         <title>PandaGainz</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="assets/bulma.css" />
+        <link rel="stylesheet" href="assets/pandagainz.css" />
         <script src="assets/pandagainz.js"></script>
+        <script src="https://www.paypal.com/sdk/js?currency=EUR&client-id=AZc9nfCWhP1iUOhkd2OZw9w_0xy7diCZ_3pEGvrYI8eGHXvYUxQL8dN5YF5fA4D_Bg0JCsvVNuUd_elR"></script>
     </head>
-    <body></body>
+    <body>
+        <section class="container">
+            <h1 class="title">PandaGainz</h1>
+        </section>
+        <div class="columns">
+            <input class="input" type="text" placeholder="Your API key" />
+            <button class="button is-pulled-right">Get report</button>
+        </div>
+
+        <footer>
+            <div class="container">
+                <div id="paypal-button-container"></div>
+            </div>
+            <div class="container">
+                <a href="https://pandagainz.com">pandagainz.com</a>
+            </div>
+        </footer>
+    </body>
 </html>

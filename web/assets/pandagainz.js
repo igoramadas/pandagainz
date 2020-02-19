@@ -1,4 +1,8 @@
 class PandaGainz {
+    static init = async () => {
+        //paypal.Buttons().render("#paypal-button-container")
+    }
+
     static getReport = async (apiKey) => {
         const url = `report?key=${encodeURIComponent(apiKey)}`
         const options = {
@@ -21,3 +25,5 @@ class PandaGainz {
         console.dir(report)
     }
 }
+
+document.addEventListener("DOMContentLoaded", PandaGainz.init, false)
