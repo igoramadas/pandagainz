@@ -1,8 +1,16 @@
+// Types
+
+/**
+ * A full report.
+ */
 interface PandaReport {
     profit?: number
     wallets?: Wallet[]
 }
 
+/**
+ * Trade involving crypto or metal assets.
+ */
 interface Trade {
     assetAmount: number
     assetPrice: number
@@ -10,6 +18,9 @@ interface Trade {
     timestamp: number
 }
 
+/**
+ * Wallet with trades.
+ */
 interface Wallet {
     symbol: string
     buy: Trade[]

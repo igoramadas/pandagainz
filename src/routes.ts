@@ -62,7 +62,7 @@ class Routes {
                     throw new Error("Invalid API key")
                 }
 
-                const result = await bitpanda.getReport(apiKey)
+                const result = await bitpanda.getReport(apiKey.replace(/[^a-zA-Z0-9]/g, ""))
                 app.renderJson(req, res, result)
             } catch (ex) {
                 logger.error("Routes", req.path, ex)
