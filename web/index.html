@@ -12,17 +12,19 @@
         <section class="container">
             <h1 class="title">PandaGainz</h1>
         </section>
-        <div class="columns">
-            <input class="input" type="text" placeholder="Your API key" />
-            <button class="button is-pulled-right">Get report</button>
-        </div>
-
+        <section>
+            <div class="columns">
+                <input id="txt-api-key" class="input" type="text" placeholder="Your API key" pattern="[A-Za-z0-9]" required />
+                <button id="but-get-report" class="button is-pulled-right">Get report</button>
+            </div>
+        </section>
         <footer>
             <div class="container">
                 <div id="paypal-button-container"></div>
             </div>
+            <div class="container"></div>
             <div class="container">
-                <a href="https://pandagainz.com">pandagainz.com</a>
+                <a class="footer-link" href="https://pandagainz.com">pandagainz.com</a>
             </div>
         </footer>
     </body>

@@ -20,5 +20,10 @@
     "general": {
         // Use UTF8 as default encoding for files and streams.
         "encoding": "utf8"
+    },
+    // Limit API requests to a maximum of 20 per minute.
+    "rateLimiter": {
+        "points": 20,
+        "duration": 60
     }
 }

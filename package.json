@@ -11,8 +11,7 @@
         "tax"
     ],
     "author": "Igor Ramadas <igor@devv.com>",
-    "homepage": "https://pandagainz.devv.com",
-    "subdomain": "pandagainz",
+    "homepage": "https://pandagainz.com",
     "license": "MIT",
     "main": "lib/index.js",
     "repository": {
