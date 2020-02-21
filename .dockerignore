@@ -1,0 +1,14 @@
+.DS_Store
+.prettierignore
+.history/
+.vscode/
+coverage/
+docs/
+src/
+node_modules/
+Makefile
+npm-debug.log
+pandagainz.local.crt
+pandagainz.local.key
+settings.private.json
+tsconfig.json
