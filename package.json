@@ -1,6 +1,6 @@
 {
     "name": "pandagainz",
-    "version": "20.8.322",
+    "version": "20.8.516",
     "description": "Calculate your profit (or losses) on Bitpanda.",
     "keywords": [
         "bitcoin",
@@ -42,7 +42,7 @@
         "@types/node": "^13.7.4",
         "chalk": "^3.0.0",
         "typedoc": "^0.16.10",
-        "typescript": "^3.7.5"
+        "typescript": "^3.8.2"
     },
     "prettier": {
         "trailingComma": "none",

@@ -4,8 +4,19 @@
  * A full report.
  */
 interface PandaReport {
+    keyHash?: string
     profit?: number
     wallets?: Wallet[]
+}
+
+/**
+ * Represents a payment / donation to PandaGainz.
+ */
+interface Payment {
+    email?: string
+    keyHash: string
+    amount: number
+    timestamp: number
 }
 
 /**
