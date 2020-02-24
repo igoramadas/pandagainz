@@ -15,10 +15,10 @@ RUN apk update && apk upgrade && npm install --production
 FROM node:alpine AS pandagainz-final
 ENV NODE_ENV=production
 WORKDIR /app
-COPY ./app/package.json .
-COPY ./app/package-lock.json .
-COPY ./app/settings.json .
-COPY ./app/settings.production.json .
+COPY ./package.json .
+COPY ./package-lock.json .
+COPY ./settings.json .
+COPY ./settings.production.json .
 COPY --from=pandagainz-builder ./app/lib ./lib
 COPY --from=pandagainz-dependencies ./app/node_modules ./node_modules
 EXPOSE 8080
