@@ -9,7 +9,7 @@ RUN node_modules/.bin/tsc
 FROM node:alpine AS pandagainz-dependencies
 WORKDIR /app
 COPY . .
-RUN apk update && apk upgrade && npm install --production --quiet && npm cache clean
+RUN apk update && apk upgrade && npm install --production
 
 # FINAL IMAGE
 FROM node:alpine AS pandagainz-final
