@@ -239,8 +239,8 @@ class Bitpanda {
         }
 
         // We only want the useful wallet data on result.
-        wallets = _.remove(Object.values(wallets), (w) => {
-            return w.buy.length == 0 && w.sell.length == 0
+        wallets = _.filter(Object.values(wallets), (w) => {
+            return w.buy.length > 0 || w.sell.length > 0
         })
 
         const result: PandaReport = {

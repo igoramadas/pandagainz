@@ -14,26 +14,116 @@
             gtag("js", new Date())
             gtag("config", "UA-9331973-5")
         </script>
-        <script async src="https://www.paypal.com/sdk/js?currency=EUR&client-id=AZc9nfCWhP1iUOhkd2OZw9w_0xy7diCZ_3pEGvrYI8eGHXvYUxQL8dN5YF5fA4D_Bg0JCsvVNuUd_elR"></script>
+        <script async data-ad-client="ca-pub-6701880236472336" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <script defer src="https://www.paypal.com/sdk/js?currency=EUR&client-id=AZc9nfCWhP1iUOhkd2OZw9w_0xy7diCZ_3pEGvrYI8eGHXvYUxQL8dN5YF5fA4D_Bg0JCsvVNuUd_elR"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <script src="assets/router.js"></script>
         <script src="assets/pandagainz.js"></script>
     </head>
     <body>
-        <section class="container">
-            <h1 class="title">PandaGainz</h1>
-        </section>
-        <section>
+        <a href="/" title="PandaGainz">
+            <h1 class="title is-size-2-mobile is-size-1-tablet">Panda <i class="fas fa-chart-line"></i> Gainz <span class="tag is-info is-light">BETA</span></h1>
+        </a>
+        <section class="section wrapper" id="input-panel" style="display:none">
             <div class="columns">
-                <input id="txt-api-key" class="input" type="text" placeholder="Your API key" pattern="[A-Za-z0-9]" required />
-                <button id="but-get-report" class="button is-pulled-right">Get report</button>
+                <div class="column">
+                    <input id="txt-api-key" class="input is-rounded" type="text" name="bitpanda-api-key" placeholder="Your Bitpanda API key" pattern="[A-Za-z0-9]" required />
+                </div>
+                <div class="column is-one-fifth">
+                    <button id="but-get-report" class="button is-rounded is-primary is-icon ">Generate report</button>
+                    <div class="loading" style="display:none">
+                        <i class="fas fa-spinner fa-pulse fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <a href="#apikey-help">Where can I find my API key?</a>
             </div>
         </section>
-        <footer>
+        <section class="section wrapper" id="report-panel" style="display:none">
+            <div class="container">
+                <table class="table is-fullwidth is-bordered">
+                    <thead>
+                        <tr>
+                            <th>Wallet</th>
+                            <th class="has-text-right">Buy Orders</th>
+                            <th class="has-text-right">Buy EUR</th>
+                            <th class="has-text-right">Sell Orders</th>
+                            <th class="has-text-right">Sell EUR</th>
+                            <th class="has-text-right">Sold Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="report-rows"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td id="table-profit" colspan="6"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="container"></div>
+        </section>
+        <section class="section wrapper" id="apikey-help-panel" style="display:none">
+            <div class="content">
+                <h4 class="title is-4">How to get a Bitpanda API key</h4>
+                <ol type="1">
+                    <li>Open <a href="https://web.bitpanda.com/apikey" title="Go to Bitpanda" target="bitpanda">https://web.bitpanda.com/apikey</a>.</li>
+                    <li>Give the key a name, like PandaGainz, and mark all scopes (Trading, Transaction, Balance).</li>
+                    <li>Click "Generate new API key" and copy the key value.</li>
+                    <li>Go <a href="#" title="Back to generate your report">back</a> and enter your API key to generate your report.</li>
+                </ol>
+            </div>
+            <img class="screenshot" />
+        </section>
+        <section class="section wrapper" id="about-panel" style="display:none">
+            <div class="content">
+                <h4 class="title is-4">Facts about PandaGainz</h4>
+                <ul>
+                    <li>It's fully <a href="https://github.com/igoramadas/pandagainz" title="PandaGainz on GitHub">open source</a>.</li>
+                    <li>It does NOT store API keys provided by users.</li>
+                    <li>
+                        It does NOT store any generated reports without the user's consent.
+                        <ul>
+                            <li class="is-italic">In the future users will be able to opt-in to have their reports stored on our database.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        It's free to use.
+                        <ul>
+                            <li class="is-italic">In the future users will be able to donate to unlock extra features and remove ads.</li>
+                        </ul>
+                    </li>
+                    <li>Calculations are done using the FIFO (first in first out) method.</li>
+                    <li>
+                        Happy?
+                        <a href="#" title="Back to generate your report">Generate your report now!</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="section wrapper" id="error-panel" style="display:none">
+            <h4 class="title is-4">Oops...</h4>
+            <div class="container has-text-centered error-401" style="display:none">
+                The provided API key is wrong or doesn't have all the necessary scopes allowed.
+                <br />
+                If you need help generating an API key, check this
+                <a href="#apikey-help" title="Need help generating a Bitpanda API key?">step-by-step</a>.
+            </div>
+        </section>
+        <section class="section" id="paypal-panel" style="display:none">
             <div class="container">
                 <div id="paypal-button-container"></div>
             </div>
-            <div class="container"></div>
+        </section>
+
+        <footer class="footer">
             <div class="container">
-                <a class="footer-link" href="https://pandagainz.com">pandagainz.com</a>
+                PandaGainz is not a tax or trading advisor.
+                <a href="#about" title="About PandaGainz">More...</a>
+            </div>
+            <div class="container">
+                <a class="github-link" href="https://github.com/igoramadas/pandagainz" title="PandaGainz is open source!"><i class="fab fa-github"></i></a>
+                <a class="footer-link" href="https://pandagainz.com" title="PandaGainz">https://pandagainz.com</a>
             </div>
         </footer>
     </body>

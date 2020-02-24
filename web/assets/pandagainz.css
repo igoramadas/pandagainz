@@ -1,6 +1,55 @@
 body {
     margin: auto;
-    max-width: 960px;
     text-align: center;
     width: auto;
+}
+
+h1 {
+    margin-left: 50px;
+    margin-top: 30px;
+}
+h1 .tag {
+    position: relative;
+    top: -25px;
+}
+
+.wrapper {
+    margin: auto;
+    max-width: 960px;
+    width: auto;
+}
+
+.tpanel {
+    opacity: 0;
+    transition: opacity 300ms;
+}
+
+.tpanel.active {
+    opacity: 1;
+}
+
+.content {
+    text-align: left;
+}
+
+.button span {
+    margin-left: 5px;
+}
+
+.github-link {
+    color: rgb(0, 0, 0);
+    margin-right: 5px;
+}
+
+#table-profit {
+    font-weight: bold;
+    text-align: right;
+}
+
+td.is-profit {
+    background-color: rgba(72, 199, 116, 0.5);
+}
+
+td.is-loss {
+    background-color: rgba(241, 70, 104, 0.5);
 }

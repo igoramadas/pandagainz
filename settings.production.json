@@ -3,5 +3,9 @@
     "app": {
         // Port in which the server should run on production.
         "port": 8080
+    },
+    // Database disabled in production, for now.
+    "database": {
+        "enabled": false
     }
 }

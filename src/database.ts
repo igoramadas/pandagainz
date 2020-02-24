@@ -1,6 +1,5 @@
 // Database
 
-import {apiKeyHash} from "./utils"
 import logger = require("anyhow")
 import moment = require("moment")
 import mongodb = require("mongodb")
@@ -37,10 +36,14 @@ class Database {
      */
     init = async () => {
         try {
-            await this.connect()
-            await this.db.collection("payments").createIndex({email: 1}, {sparse: true})
-            await this.db.collection("payments").createIndex({keyHash: 1})
-            await this.db.collection("reports").createIndex({keyHash: 1})
+            if (settings.database.enabled) {
+                await this.connect()
+                await this.db.collection("payments").createIndex({email: 1}, {sparse: true})
+                await this.db.collection("payments").createIndex({keyHash: 1})
+                await this.db.collection("reports").createIndex({keyHash: 1})
+            } else {
+                logger.warn("Database.init", "Not enabled on settings")
+            }
         } catch (ex) {
             logger.error("Database.init", ex)
         }
@@ -52,9 +55,7 @@ class Database {
     /**
      * Add a payment / donation made to PandaGainz via PayPal.
      */
-    addPayment = async (apiKey: string, email: string, amount: number): Promise<void> => {
-        const keyHash = apiKeyHash(apiKey)
-
+    addPayment = async (keyHash: string, email: string, amount: number): Promise<void> => {
         try {
             await this.connect()
 
@@ -71,8 +72,7 @@ class Database {
     /**
      * Add a report to the database.
      */
-    addReport = async (apiKey: string, report: PandaReport): Promise<void> => {
-        const keyHash = apiKeyHash(apiKey)
+    addReport = async (keyHash: string, report: PandaReport): Promise<void> => {
         report.keyHash = keyHash
 
         try {
@@ -90,9 +90,7 @@ class Database {
     /**
      * Get stored reports for the specified API key.
      */
-    getReports = async (apiKey: string): Promise<PandaReport[]> => {
-        const keyHash = apiKeyHash(apiKey)
-
+    getReports = async (keyHash: string): Promise<PandaReport[]> => {
         try {
             await this.connect()
 
@@ -106,9 +104,7 @@ class Database {
     /**
      * Remove reports stored for the specified API key.
      */
-    deleteReports = async (apiKey: string): Promise<number> => {
-        const keyHash = apiKeyHash(apiKey)
-
+    deleteReports = async (keyHash: string): Promise<number> => {
         try {
             await this.connect()
 
