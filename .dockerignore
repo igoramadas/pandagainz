@@ -4,6 +4,7 @@
 .vscode/
 coverage/
 docs/
+node_modules/
 Makefile
 npm-debug.log
 pandagainz.local.crt
