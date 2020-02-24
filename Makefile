@@ -12,8 +12,6 @@ clean:
 	rm -rf ./lib
 	rm -rf ./node_modules
 	rm -f package-lock.json
-	git remote prune origin
-	git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $$1}'`; do git branch -D $$branch; done
 
 docs:
 	rm -rf ./docs/assets
@@ -29,8 +27,11 @@ run:
 update:
 	git checkout master
 	-ncu -u
-	-npm version $(shell date '+%y.%-V.%u%H') --force --allow-same-version --no-git-tag-version
+	npm version $(shell date '+%y.%-V.%u%H') --force --allow-same-version --no-git-tag-version
 	npm install
 	$(TSC)
+
+publish:
+	npm version $(shell date '+%y.%-V.%u%H') --force --allow-same-version
 
 .PHONY: docs
