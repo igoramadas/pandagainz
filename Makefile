@@ -25,7 +25,6 @@ run:
 	npm start
 
 update:
-	git checkout master
 	-ncu -u
 	npm version $(shell date '+%y.%-V.%u%H') --force --allow-same-version --no-git-tag-version
 	npm install
