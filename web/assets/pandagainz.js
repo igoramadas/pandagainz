@@ -89,7 +89,8 @@ class PG {
 
         reportPanel: null,
         reportRows: null,
-        tableProfit: null,
+        tableTotalValue: null,
+        tableTotalProfit: null,
 
         paypalPanel: null,
 
@@ -178,19 +179,26 @@ class PG {
     static processReport = async (report) => {
         PG.dom.reportRows.innerHTML = ""
 
+        let totalValue = 0
+
         for (let wallet of report.wallets) {
             const sellProfit = wallet.sellProfit ? wallet.sellProfit.toFixed(2) : 0
-            const tr = PG.createTableRow(wallet.symbol, wallet.buy.length, wallet.totalBuy, wallet.sell.length, wallet.totalSell, sellProfit)
+            const currentValue = wallet.currentValue.toFixed(2)
+            const tr = PG.createTableRow(wallet.symbol, wallet.buy.length, wallet.totalBuy, wallet.sell.length, wallet.totalSell, currentValue, sellProfit)
             PG.dom.reportRows.append(tr)
+
+            totalValue += wallet.currentValue
         }
 
         if (report.profit >= 0) {
-            PG.dom.tableProfit.className = "is-profit"
-            PG.dom.tableProfit.innerText = `Profit: ${report.profit.toFixed(2)}`
+            PG.dom.tableTotalProfit.className = "table-total is-profit"
+            PG.dom.tableTotalProfit.innerText = `Profit: ${report.profit.toFixed(2)}`
         } else {
-            PG.dom.tableProfit.className = "is-loss"
-            PG.dom.tableProfit.innerText = `Loss: ${report.profit.toFixed(2)}`
+            PG.dom.tableTotalProfit.className = "table-total is-loss"
+            PG.dom.tableTotalProfit.innerText = `Loss: ${report.profit.toFixed(2)}`
         }
+
+        PG.dom.tableTotalValue.innerText = totalValue.toFixed(2)
 
         PG.switchPanel(PG.dom.reportPanel)
     }

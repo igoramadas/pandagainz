@@ -1,12 +1,19 @@
+html {
+    background: rgb(255, 255, 255);
+    height: 100%;
+}
+
 body {
+    background: linear-gradient(180deg, rgba(215, 215, 215, 1) 0%, rgba(247, 247, 247, 1) 5%, rgba(255, 255, 255, 1) 100%);
     margin: auto;
+    min-height: 100%;
+    padding-top: 30px;
     text-align: center;
     width: auto;
 }
 
 h1 {
     margin-left: 50px;
-    margin-top: 30px;
 }
 h1 .tag {
     position: relative;
@@ -45,9 +52,9 @@ h1 .tag {
     margin-right: 5px;
 }
 
-#table-profit {
+tfoot tr td {
     font-weight: bold;
-    text-align: right;
+    text-align: right !important;
 }
 
 td.is-profit {

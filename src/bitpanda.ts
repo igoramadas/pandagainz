@@ -85,6 +85,40 @@ class Bitpanda {
     }
 
     /**
+     * Get user's fiat transactions, sorted by date.
+     */
+    getFiatTransactions = async (apiKey: string): Promise<any> => {
+        try {
+            let transactions = []
+            let hasMore = true
+
+            const options = {
+                path: `fiatwallets/transactions?page_size=${settings.bitpanda.pageSize}`,
+                apiKey: apiKey
+            }
+
+            while (hasMore) {
+                const result = await this.makeRequest(options)
+                transactions = transactions.concat(_.map(result.data, "attributes"))
+
+                // Keep fetching transactions while there are more pages on the result.
+                if (result.links && result.links.next) {
+                    options.path = `fiatwallets/transactions${result.links.next}`
+                } else {
+                    hasMore = false
+                }
+            }
+
+            return _.sortBy(transactions, (t) => {
+                return t.time.unix
+            })
+        } catch (ex) {
+            logger.debug("Bitpanda.getFiatTransactions", "Failed")
+            throw ex
+        }
+    }
+
+    /**
      * Get list of crypto wallets from the user
      */
     getWallets = async (apiKey: string): Promise<any> => {
@@ -97,7 +131,7 @@ class Bitpanda {
             const result = await this.makeRequest(options)
             return _.map(result.data, "attributes")
         } catch (ex) {
-            logger.debug("Bitpanda.getTrades", "Failed")
+            logger.debug("Bitpanda.getWallets", "Failed")
             throw ex
         }
     }
@@ -137,16 +171,21 @@ class Bitpanda {
         }
     }
 
+    /**
+     * Get a full report by matching wallets, trades and transactions.
+     */
     getReport = async (apiKey: string): Promise<PandaReport> => {
         let wallets = {}
+        let totalFees = 0
         let totalProfit = 0
 
         // Get all the necessary data from Bitpanda.
         const data = {
             ticker: await this.getTicker(),
-            trades: await this.getTrades(apiKey),
             wallets: await this.getWallets(apiKey),
-            fiatWallets: await this.getFiatWallets(apiKey)
+            trades: await this.getTrades(apiKey),
+            fiatWallets: await this.getFiatWallets(apiKey),
+            fiatTransactions: await this.getFiatTransactions(apiKey)
         }
 
         // Create the resulting wallets array with the correct asset IDs.
@@ -154,7 +193,7 @@ class Bitpanda {
             if (!wallets[wallet.cryptocoin_id]) {
                 wallets[wallet.cryptocoin_id] = {
                     symbol: wallet.cryptocoin_symbol,
-                    balance: 0,
+                    balance: wallet.balance,
                     buy: [],
                     sell: []
                 }
@@ -162,8 +201,18 @@ class Bitpanda {
         }
 
         // Parse trades and add them to the related wallets.
-        for (let trade of data.trades) {
-            const info = {
+        for (let t of data.fiatTransactions) {
+            if (t.fee) {
+                totalFees += parseFloat(t.fee)
+            }
+
+            if (!t.trade || t.trade.type != "trade") {
+                continue
+            }
+
+            const trade = t.trade.attributes
+            const info: Trade = {
+                id: t.trade.id,
                 assetAmount: parseFloat(trade.amount_cryptocoin),
                 assetPrice: parseFloat(trade.price),
                 cost: parseFloat(trade.amount_fiat),
@@ -175,6 +224,13 @@ class Bitpanda {
                 wallets[trade.cryptocoin_id].buy.push(info)
             } else {
                 wallets[trade.cryptocoin_id].sell.push(info)
+            }
+
+            // Paid with BEST?
+            if (trade.bfc_used && trade.best_fee_collection) {
+                const att = trade.best_fee_collection.attributes
+                info.fee = att.bfc_market_value_eur
+                info.bestAmount = att.bfc_market_value_eur / att.best_current_price_eur
             }
         }
 
@@ -206,9 +262,8 @@ class Bitpanda {
             }
 
             // How many assets were bought and sold? Calculate balance.
-            const buyCount = _.sumBy(wallet.buy, "assetAmount")
             const sellCount = _.sumBy(wallet.sell, "assetAmount")
-            wallet.balance = buyCount - (sellCount || 0)
+            wallet.currentValue = parseFloat(data.ticker[wallet.symbol].EUR) * wallet.balance
 
             // Sold assets?
             if (sellCount > 0) {
@@ -245,7 +300,8 @@ class Bitpanda {
 
         const result: PandaReport = {
             wallets: wallets as Wallet[],
-            profit: totalProfit
+            profit: totalProfit,
+            fees: totalFees
         }
 
         return result

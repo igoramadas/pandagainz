@@ -6,6 +6,7 @@
 interface PandaReport {
     keyHash?: string
     profit?: number
+    fees?: number
     wallets?: Wallet[]
 }
 
@@ -23,10 +24,13 @@ interface Payment {
  * Trade involving crypto or metal assets.
  */
 interface Trade {
+    id: string
     assetAmount: number
     assetPrice: number
     cost: number
     timestamp: number
+    fee?: number
+    bestAmount?: number
 }
 
 /**
