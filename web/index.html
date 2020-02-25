@@ -49,19 +49,20 @@
                     <thead>
                         <tr>
                             <th>Wallet</th>
-                            <th class="has-text-right">Buy Orders</th>
-                            <th class="has-text-right">Buy Value</th>
-                            <th class="has-text-right">Sell Orders</th>
-                            <th class="has-text-right">Sell Value</th>
+                            <th class="has-text-centered" colspan="2">Buy Orders / Value</th>
+                            <th class="has-text-centered" colspan="2">Sell Orders / Value</th>
                             <th class="has-text-right">Current Value</th>
+                            <th class="has-text-right">Fees</th>
                             <th class="has-text-right">Sold Profit</th>
                         </tr>
                     </thead>
                     <tbody id="report-rows"></tbody>
                     <tfoot>
                         <tr>
-                            <td id="table-total-value" colspan="6"></td>
-                            <td id="table-total-profit"></td>
+                            <td>EUR</td>
+                            <td id="table-total-value" class="totals" colspan="5"></td>
+                            <td id="table-total-fees" class="totals"></td>
+                            <td id="table-total-profit" class="totals"></td>
                         </tr>
                     </tfoot>
                 </table>

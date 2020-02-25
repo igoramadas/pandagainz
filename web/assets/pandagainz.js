@@ -90,6 +90,7 @@ class PG {
         reportPanel: null,
         reportRows: null,
         tableTotalValue: null,
+        tableTotalFees: null,
         tableTotalProfit: null,
 
         paypalPanel: null,
@@ -180,25 +181,29 @@ class PG {
         PG.dom.reportRows.innerHTML = ""
 
         let totalValue = 0
+        let totalFees = 0
 
         for (let wallet of report.wallets) {
             const sellProfit = wallet.sellProfit ? wallet.sellProfit.toFixed(2) : 0
             const currentValue = wallet.currentValue.toFixed(2)
-            const tr = PG.createTableRow(wallet.symbol, wallet.buy.length, wallet.totalBuy, wallet.sell.length, wallet.totalSell, currentValue, sellProfit)
+            const fees = wallet.totalFees.toFixed(2)
+            const tr = PG.createTableRow(wallet.symbol, wallet.buy.length, wallet.totalBuy, wallet.sell.length, wallet.totalSell, currentValue, fees, sellProfit)
             PG.dom.reportRows.append(tr)
 
             totalValue += wallet.currentValue
+            totalFees += wallet.totalFees
         }
 
         if (report.profit >= 0) {
-            PG.dom.tableTotalProfit.className = "table-total is-profit"
+            PG.dom.tableTotalProfit.className = "totals is-profit"
             PG.dom.tableTotalProfit.innerText = `Profit: ${report.profit.toFixed(2)}`
         } else {
-            PG.dom.tableTotalProfit.className = "table-total is-loss"
+            PG.dom.tableTotalProfit.className = "totals is-loss"
             PG.dom.tableTotalProfit.innerText = `Loss: ${report.profit.toFixed(2)}`
         }
 
         PG.dom.tableTotalValue.innerText = totalValue.toFixed(2)
+        PG.dom.tableTotalFees.innerText = totalFees.toFixed(2)
 
         PG.switchPanel(PG.dom.reportPanel)
     }

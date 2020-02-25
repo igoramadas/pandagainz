@@ -52,8 +52,12 @@ h1 .tag {
     margin-right: 5px;
 }
 
-tfoot tr td {
-    font-weight: bold;
+tfoot td {
+    font-style: italic;
+}
+
+td.totals {
+    font-weight: bold !important;
     text-align: right !important;
 }
 

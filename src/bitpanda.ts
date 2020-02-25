@@ -176,7 +176,6 @@ class Bitpanda {
      */
     getReport = async (apiKey: string): Promise<PandaReport> => {
         let wallets = {}
-        let totalFees = 0
         let totalProfit = 0
 
         // Get all the necessary data from Bitpanda.
@@ -194,6 +193,10 @@ class Bitpanda {
                 wallets[wallet.cryptocoin_id] = {
                     symbol: wallet.cryptocoin_symbol,
                     balance: wallet.balance,
+                    currentValue: 0,
+                    totalBuy: 0,
+                    totalSell: 0,
+                    totalFees: 0,
                     buy: [],
                     sell: []
                 }
@@ -202,10 +205,6 @@ class Bitpanda {
 
         // Parse trades and add them to the related wallets.
         for (let t of data.fiatTransactions) {
-            if (t.fee) {
-                totalFees += parseFloat(t.fee)
-            }
-
             if (!t.trade || t.trade.type != "trade") {
                 continue
             }
@@ -229,8 +228,11 @@ class Bitpanda {
             // Paid with BEST?
             if (trade.bfc_used && trade.best_fee_collection) {
                 const att = trade.best_fee_collection.attributes
-                info.fee = att.bfc_market_value_eur
-                info.bestAmount = att.bfc_market_value_eur / att.best_current_price_eur
+                info.fee = parseFloat(att.bfc_market_value_eur)
+                info.bestAmount = parseFloat(att.bfc_market_value_eur) / parseFloat(att.best_current_price_eur)
+                wallets[trade.cryptocoin_id].totalFees += info.fee
+            } else if (t.fee) {
+                wallets[trade.cryptocoin_id].totalFees += parseFloat(t.fee)
             }
         }
 
@@ -300,8 +302,7 @@ class Bitpanda {
 
         const result: PandaReport = {
             wallets: wallets as Wallet[],
-            profit: totalProfit,
-            fees: totalFees
+            profit: totalProfit
         }
 
         return result
