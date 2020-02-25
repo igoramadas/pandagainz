@@ -4,8 +4,9 @@
         // Port in which the server should run on production.
         "port": 8080
     },
-    // Database disabled in production, for now.
+    // Database disabled in production while features are not fully ready.
     "database": {
-        "enabled": false
+        "enabled": false,
+        "name": "pandagainz"
     }
 }

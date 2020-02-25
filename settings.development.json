@@ -6,6 +6,7 @@
         "port": 3311
     },
     "database": {
-        "enabled": true
+        "enabled": true,
+        "name": "pandagainz-dev"
     }
 }

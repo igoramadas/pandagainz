@@ -1,15 +1,7 @@
 {
     "name": "pandagainz",
-    "version": "20.9.122",
+    "version": "20.9.215",
     "description": "Calculate your profit (or losses) on Bitpanda.",
-    "keywords": [
-        "bitcoin",
-        "bitpanda",
-        "crypto",
-        "fifo",
-        "profit",
-        "tax"
-    ],
     "author": "Igor Ramadas <igor@devv.com>",
     "homepage": "https://pandagainz.com",
     "license": "MIT",
@@ -52,5 +44,17 @@
         "arrowParens": "always",
         "bracketSpacing": false,
         "printWidth": 250
-    }
+    },
+    "domains": [
+        "pandagainz.com",
+        "www.pandagainz.com"
+    ],
+    "keywords": [
+        "bitcoin",
+        "bitpanda",
+        "crypto",
+        "fifo",
+        "profit",
+        "tax"
+    ]
 }

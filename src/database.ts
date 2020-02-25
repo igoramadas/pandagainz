@@ -21,13 +21,23 @@ class Database {
     /** MongoDB database reference. */
     private db = null
 
+    /** Is the client currently connected to the database? */
+    get isConnected() {
+        return this.client && this.client.topology && this.client.topology.isConnected()
+    }
+
     /**
      * Ensure the client connection to the database.
      */
     private connect = async (): Promise<void> => {
-        if (!this.client) {
-            this.client = await mongoClient.connect(settings.database.url)
-            this.db = this.client.db(settings.database.name)
+        if (!this.isConnected) {
+            try {
+                this.client = await mongoClient.connect(settings.database.url, {useUnifiedTopology: true})
+                this.db = this.client.db(settings.database.name)
+                logger.info("Database.connect", `Connected to ${settings.database.name}`)
+            } catch (ex) {
+                logger.error("Database.connect", ex)
+            }
         }
     }
 
