@@ -53,8 +53,10 @@
         "bitcoin",
         "bitpanda",
         "crypto",
+        "ethereum",
         "fifo",
         "profit",
-        "tax"
+        "tax",
+        "xrp"
     ]
 }
