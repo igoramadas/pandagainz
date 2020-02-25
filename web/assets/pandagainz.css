@@ -19,6 +19,10 @@ h1 .tag {
     width: auto;
 }
 
+.form.columns {
+    margin-top: 20px;
+}
+
 .tpanel {
     opacity: 0;
     transition: opacity 300ms;

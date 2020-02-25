@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>PandaGainz</title>
+        <title>PandaGainz - generate your Bitpanda report</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="assets/bulma.css" />
         <link rel="stylesheet" href="assets/pandagainz.css" />
@@ -25,7 +25,10 @@
             <h1 class="title is-size-2-mobile is-size-1-tablet">Panda <i class="fas fa-chart-line"></i> Gainz <span class="tag is-info is-light">BETA</span></h1>
         </a>
         <section class="section wrapper" id="input-panel" style="display:none">
-            <div class="columns">
+            <div class="container">
+                Generate your freeBitpanda report now!
+            </div>
+            <div class="form columns">
                 <div class="column">
                     <input id="txt-api-key" class="input is-rounded" type="text" name="bitpanda-api-key" placeholder="Your Bitpanda API key" pattern="[A-Za-z0-9]" required />
                 </div>
@@ -77,16 +80,9 @@
         </section>
         <section class="section wrapper" id="about-panel" style="display:none">
             <div class="content">
-                <h4 class="title is-4">Facts about PandaGainz</h4>
+                <h4>What is PandaGainz?</h4>
                 <ul>
                     <li>It's fully <a href="https://github.com/igoramadas/pandagainz" title="PandaGainz on GitHub">open source</a>.</li>
-                    <li>It does NOT store API keys provided by users.</li>
-                    <li>
-                        It does NOT store any generated reports without the user's consent.
-                        <ul>
-                            <li class="is-italic">In the future users will be able to opt-in to have their reports stored on our database.</li>
-                        </ul>
-                    </li>
                     <li>
                         It's free to use.
                         <ul>
@@ -99,15 +95,46 @@
                         <a href="#" title="Back to generate your report">Generate your report now!</a>
                     </li>
                 </ul>
+                <h4>How secure is it?</h4>
+                <ul>
+                    <li>It does NOT store API keys provided by users.</li>
+                    <li>It does NOT share API keys or reports with any 3rd party service</li>
+                    <li>
+                        It does NOT store any generated reports without the user's consent.
+                        <ul>
+                            <li class="is-italic">In the future users will be able to opt-in to have their reports stored on our database for future reference.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <h4>More technical details please</h4>
+                <ul>
+                    <li>Written mostly in TypeScript, running on Node.js.</li>
+                    <li>Servers hosted on the Google Cloud.</li>
+                </ul>
+                <h4>What about the ads?</h4>
+                <ul>
+                    <li>We know literally no one likes intrusive ads.</li>
+                    <li>The unobtrusive ads on PandaGainz are the only source of revenue to pay for the domain and server resources.</li>
+                    <li>If you really do not wish to see these (unobtrusive) ads, please consider using an ad blocker.</li>
+                </ul>
             </div>
         </section>
         <section class="section wrapper" id="error-panel" style="display:none">
             <h4 class="title is-4">Oops...</h4>
             <div class="container has-text-centered error-401" style="display:none">
-                The provided API key is wrong or doesn't have all the necessary scopes allowed.
-                <br />
-                If you need help generating an API key, check this
-                <a href="#apikey-help" title="Need help generating a Bitpanda API key?">step-by-step</a>.
+                <p>
+                    The provided API key is invalid, or it doesn't have all the required scopes to get your data.
+                    <br /><br />
+                    If you need help generating an API key, check this
+                    <a href="#apikey-help" title="Need help generating a Bitpanda API key?">step-by-step</a>.
+                </p>
+            </div>
+            <div class="container has-text-centered error-500" style="display:none">
+                <p>
+                    There was an issue trying to fetch your data from Bitpanda. Please try again in a few minutes.
+                    <br /><br />
+                    So sorry :-(
+                </p>
             </div>
         </section>
         <section class="section" id="paypal-panel" style="display:none">

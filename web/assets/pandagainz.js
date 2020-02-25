@@ -13,8 +13,15 @@ class PG {
             }
         }
 
+        // Init routes and events.
         PG.setRoutes()
         PG.setEvents()
+
+        // Set page title to PandaGainz.
+        const finalTitle = () => {
+            document.title = "PandaGainz"
+        }
+        setTimeout(finalTitle, 1000)
     }
 
     // Add client side routes.
@@ -160,7 +167,7 @@ class PG {
             if (res.status == 200) {
                 PG.processReport(report)
             } else {
-                PG.showError(res.status, "Could not fetch data from Bitpanda")
+                PG.showError(res.status, "Could not fetch data")
             }
         } catch (ex) {
             PG.showError(ex, "Error generating report")
