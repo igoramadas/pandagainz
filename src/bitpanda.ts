@@ -177,6 +177,8 @@ class Bitpanda {
     getReport = async (apiKey: string): Promise<PandaReport> => {
         let wallets = {}
         let totalProfit = 0
+        let totalDeposit = 0
+        let totalWithdrawal = 0
 
         // Get all the necessary data from Bitpanda.
         const data = {
@@ -192,7 +194,7 @@ class Bitpanda {
             if (!wallets[wallet.cryptocoin_id]) {
                 wallets[wallet.cryptocoin_id] = {
                     symbol: wallet.cryptocoin_symbol,
-                    balance: wallet.balance,
+                    balance: parseFloat(wallet.balance),
                     currentValue: 0,
                     totalBuy: 0,
                     totalSell: 0,
@@ -205,6 +207,18 @@ class Bitpanda {
 
         // Parse trades and add them to the related wallets.
         for (let t of data.fiatTransactions) {
+            if (t.status != "finished") {
+                continue
+            }
+
+            // Calculate total deposit and withdrawals.
+            const eurAmount = parseFloat(t.amount) * parseFloat(t.to_eur_rate)
+            if (t.type == "deposit") {
+                totalDeposit += eurAmount
+            } else if (t.type == "withdrawal") {
+                totalWithdrawal += eurAmount
+            }
+
             if (!t.trade || t.trade.type != "trade") {
                 continue
             }
@@ -302,7 +316,9 @@ class Bitpanda {
 
         const result: PandaReport = {
             wallets: wallets as Wallet[],
-            profit: totalProfit
+            profit: totalProfit,
+            deposit: totalDeposit,
+            withdrawal: totalWithdrawal
         }
 
         return result

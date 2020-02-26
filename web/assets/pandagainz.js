@@ -89,6 +89,7 @@ class PG {
 
         reportPanel: null,
         reportRows: null,
+        tableTotalDeposit: null,
         tableTotalValue: null,
         tableTotalFees: null,
         tableTotalProfit: null,
@@ -200,6 +201,7 @@ class PG {
             PG.dom.tableTotalProfit.innerText = `Loss: ${report.profit.toFixed(2)}`
         }
 
+        PG.dom.tableTotalDeposit.innerText = (report.deposit - report.withdrawal).toFixed(2)
         PG.dom.tableTotalValue.innerText = totalValue.toFixed(2)
         PG.dom.tableTotalFees.innerText = totalFees.toFixed(2)
 

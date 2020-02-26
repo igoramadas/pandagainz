@@ -6,6 +6,8 @@
 interface PandaReport {
     keyHash?: string
     profit?: number
+    deposit?: number
+    withdrawal?: number
     fees?: number
     wallets?: Wallet[]
 }
