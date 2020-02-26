@@ -77,7 +77,7 @@ class Routes {
             const apiKey: string = req.query.key || req.body.key
             const save: boolean = req.query.save || req.body.save
 
-            if (!apiKey || apiKey.length < 10) {
+            if (!apiKey || apiKey.length < 20) {
                 throw new Error("Invalid API key")
             }
 
@@ -108,7 +108,7 @@ class Routes {
         try {
             const apiKey: string = req.query.key || req.body.key
 
-            if (!apiKey || apiKey.length < 10) {
+            if (!apiKey || apiKey.length < 20) {
                 throw new Error("Invalid API key")
             }
 

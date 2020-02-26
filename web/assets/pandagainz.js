@@ -2,8 +2,6 @@
 
 class PG {
     static init = async () => {
-        //paypal.Buttons().render("#paypal-button-container")
-
         for (let key of Object.keys(PG.dom)) {
             PG.dom[key] = document.getElementById(key.replace(/([A-Z])/g, "-$1").toLowerCase())
 
@@ -63,13 +61,15 @@ class PG {
     // Bind events to inputs and
     static setEvents = () => {
         PG.dom.butGetReport.onclick = function() {
-            if (PG.dom.txtApiKey.value && PG.dom.txtApiKey.value.length > 3) {
+            if (PG.dom.txtApiKey.value && PG.dom.txtApiKey.value.length >= 20) {
                 PG.router.navigateTo(`report/${PG.dom.txtApiKey.value}`)
             } else {
                 PG.dom.txtApiKey.focus()
             }
         }
         PG.dom.txtApiKey.addEventListener("keyup", function(event) {
+            PG.dom.butGetReport.disabled = PG.dom.txtApiKey.value.length < 20
+
             if (event.keyCode === 13) {
                 event.preventDefault()
                 PG.dom.butGetReport.click()
@@ -92,8 +92,6 @@ class PG {
         tableTotalValue: null,
         tableTotalFees: null,
         tableTotalProfit: null,
-
-        paypalPanel: null,
 
         apikeyHelpPanel: null,
         aboutPanel: null,

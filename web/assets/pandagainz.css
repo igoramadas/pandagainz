@@ -68,3 +68,7 @@ td.is-profit {
 td.is-loss {
     background-color: rgba(241, 70, 104, 0.5);
 }
+
+.footer-link {
+    margin-top: 15px;
+}
