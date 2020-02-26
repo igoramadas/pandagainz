@@ -20,6 +20,7 @@ class PG {
             document.title = "PandaGainz"
         }
         setTimeout(finalTitle, 1000)
+        ;(adsbygoogle = window.adsbygoogle || []).push({})
     }
 
     // Add client side routes.
