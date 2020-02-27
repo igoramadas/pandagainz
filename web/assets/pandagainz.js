@@ -15,11 +15,7 @@ class PG {
         PG.setRoutes()
         PG.setEvents()
 
-        // Set page title to PandaGainz.
-        const finalTitle = () => {
-            document.title = "PandaGainz"
-        }
-        setTimeout(finalTitle, 1000)
+        // Google ads.
         ;(adsbygoogle = window.adsbygoogle || []).push({})
     }
 
@@ -37,6 +33,7 @@ class PG {
             PG.dom.inputPanel.getElementsByClassName("button")[0].style.display = ""
 
             PG.switchPanel(PG.dom.inputPanel)
+            document.title = "PandaGainz"
         })
 
         PG.router.add("report/(:any)", function(apiKey) {
@@ -49,10 +46,12 @@ class PG {
         PG.router.add("apikey-help", function() {
             PG.dom.apikeyHelpPanel.getElementsByClassName("screenshot")[0].src = "/images/apikey.png"
             PG.switchPanel(PG.dom.apikeyHelpPanel)
+            document.title = "PandaGainz - API key help"
         })
 
         PG.router.add("about", function() {
             PG.switchPanel(PG.dom.aboutPanel)
+            document.title = "PandaGainz - About"
         })
 
         PG.router.addUriListener()
@@ -207,6 +206,7 @@ class PG {
         PG.dom.tableTotalFees.innerText = totalFees.toFixed(2)
 
         PG.switchPanel(PG.dom.reportPanel)
+        document.title = "PandaGainz - Report"
     }
 
     // Oops, something went wrong...
