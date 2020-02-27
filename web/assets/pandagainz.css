@@ -74,5 +74,12 @@ td.is-loss {
 }
 
 .footer-link {
+    margin-top: 10px;
+}
+
+.footer-link a {
+    background: url(/favicon.png) no-repeat left;
+    background-size: 16px 16px;
     margin-top: 15px;
+    padding-left: 18px;
 }
