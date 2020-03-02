@@ -30,10 +30,6 @@ h1 .tag {
     margin-top: 20px;
 }
 
-.ad-panel {
-    margin-top: 5px;
-}
-
 .tpanel {
     opacity: 0;
     transition: opacity 300ms;
