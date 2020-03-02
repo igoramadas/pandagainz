@@ -14,9 +14,6 @@ class PG {
         // Init routes and events.
         PG.setRoutes()
         PG.setEvents()
-
-        // Google ads.
-        ;(adsbygoogle = window.adsbygoogle || []).push({})
     }
 
     // Add client side routes.
