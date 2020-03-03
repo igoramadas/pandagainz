@@ -9,7 +9,9 @@
         "title": "PandaGainz",
         // Paths to web assets and HTML.
         "publicPath": "./web/",
-        "viewPath": "./web/"
+        "viewPath": "./web/",
+        // Cookie secret key. On production you should set this to a private value.
+        "cookieSecret": "cookie-bouncer-007"
     },
     "bitpanda": {
         // Base URL to the Bitpanda API.

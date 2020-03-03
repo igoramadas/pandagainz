@@ -11,9 +11,86 @@ class PG {
             }
         }
 
-        // Init routes and events.
+        await PG.getSession()
+
+        // Init cookie consent, routes and events.
+        PG.setCookieConsent()
         PG.setRoutes()
         PG.setEvents()
+    }
+
+    // Cookie consent script.
+    static setCookieConsent = () => {
+        window.CookieConsent.init({
+            modalMainTextMoreLink: null,
+            barTimeout: 1000,
+            theme: {
+                barColor: "#2C7CBF",
+                barTextColor: "#FFFFFFF",
+                barMainButtonColor: "#FFFFFFF",
+                barMainButtonTextColor: "#2C7CBF",
+                modalMainButtonColor: "#4285F4",
+                modalMainButtonTextColor: "#FFFFFFF"
+            },
+            language: {
+                current: "en",
+                locale: {
+                    en: {
+                        barMainText: "This website uses cookies to ensure you get the best experience out of it.",
+                        barLinkSetting: "Settings",
+                        barBtnAcceptAll: "Accept cookies",
+                        modalMainTitle: "Cookie settings",
+                        modalMainText:
+                            "Cookies are small pieces of data sent from a website and stored on the user's computer by the web browser. Cookies are designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity.",
+                        modalBtnSave: "Save settings",
+                        modalBtnAcceptAll: "Accept all cookies and close",
+                        modalAffectedSolutions: "Services",
+                        learnMore: "Learn More",
+                        on: "On",
+                        off: "Off"
+                    }
+                }
+            },
+            categories: {
+                necessary: {
+                    needed: true,
+                    wanted: true,
+                    checked: true,
+                    language: {
+                        locale: {
+                            en: {
+                                name: "Strictly necessary cookies",
+                                description: "Cookies used for analytics and to track usage accross the website."
+                            }
+                        }
+                    }
+                }
+            },
+            services: {
+                analytics: {
+                    category: "necessary",
+                    type: "dynamic-script",
+                    search: "analytics",
+                    cookies: [
+                        {
+                            name: "_gid",
+                            domain: `.${window.location.hostname}`
+                        },
+                        {
+                            name: /^_ga/,
+                            domain: `.${window.location.hostname}`
+                        }
+                    ],
+                    language: {
+                        locale: {
+                            en: {
+                                name: "Google Analytics"
+                            }
+                        }
+                    }
+                }
+            }
+        })
     }
 
     // Add client side routes.
@@ -64,14 +141,20 @@ class PG {
                 PG.dom.txtApiKey.focus()
             }
         }
-        PG.dom.txtApiKey.addEventListener("keyup", function(event) {
-            PG.dom.butGetReport.disabled = PG.dom.txtApiKey.value.length < 20
 
-            if (event.keyCode === 13) {
-                event.preventDefault()
-                PG.dom.butGetReport.click()
-            }
-        })
+        // Validate API key input.
+        PG.dom.txtApiKey.addEventListener("keyup", PG.txtApiKeyValidate)
+        PG.txtApiKeyValidate()
+    }
+
+    // On key up on the input
+    static txtApiKeyValidate = function(event) {
+        PG.dom.butGetReport.disabled = PG.dom.txtApiKey.value.length < 20
+
+        if (event && event.keyCode === 13) {
+            event.preventDefault()
+            PG.dom.butGetReport.click()
+        }
     }
 
     // DOM MANIPULATION
@@ -81,6 +164,7 @@ class PG {
     static dom = {
         inputPanel: null,
         txtApiKey: null,
+        chkRemember: null,
         butGetReport: null,
         icoGetReport: null,
 
@@ -147,9 +231,32 @@ class PG {
     // BUSINESS LOGIC AND ACTIONS
     // --------------------------------------------------------------------------
 
+    // Fetch saved session and cookie data from server.
+    static getSession = async () => {
+        const options = {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        try {
+            const res = await fetch("/session", options)
+            const cookies = await res.json()
+
+            if (cookies.apiKey) {
+                PG.dom.txtApiKey.value = cookies.apiKey
+                PG.dom.chkRemember.checked = true
+            }
+        } catch (ex) {
+            console.error(ex)
+        }
+    }
+
     // Fetch report from server.
     static getReport = async (apiKey) => {
-        const url = `/api/report?key=${encodeURIComponent(apiKey)}`
+        const url = `/api/report?key=${encodeURIComponent(apiKey)}&remember=${PG.dom.chkRemember.checked}`
         const options = {
             method: "GET",
             mode: "cors",

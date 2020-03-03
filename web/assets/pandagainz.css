@@ -1,5 +1,4 @@
 html {
-    background: rgb(255, 255, 255);
     height: 100%;
 }
 
@@ -15,6 +14,7 @@ body {
 h1 {
     margin-left: 50px;
 }
+
 h1 .tag {
     position: relative;
     top: -25px;
@@ -28,6 +28,7 @@ h1 .tag {
 
 .form.columns {
     margin-top: 20px;
+    margin-bottom: 0;
 }
 
 .tpanel {
@@ -67,6 +68,14 @@ td.is-profit {
 
 td.is-loss {
     background-color: rgba(241, 70, 104, 0.5);
+}
+
+.amazon-panel {
+    margin-top: 40px;
+}
+
+.footer {
+    background: Transparent !important;
 }
 
 .footer-link {

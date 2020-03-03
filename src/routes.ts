@@ -22,6 +22,7 @@ class Routes {
      */
     static init = async () => {
         app.use(require("body-parser").json({type: "application/*+json"}))
+        app.use(require("cookie-parser")(settings.app.cookieSecret))
 
         // Create the rate limiter.
         Routes.rateLimiter = new rateLimiterFlex.RateLimiterMemory({
@@ -31,6 +32,7 @@ class Routes {
 
         // Bind routes.
         app.get("/", Routes.getHome)
+        app.get("/session", Routes.getSession)
         app.get("/api/report", Routes.getReport)
         app.post("/api/report", Routes.getReport)
         app.delete("/api/report", Routes.deleteReport)
@@ -67,6 +69,17 @@ class Routes {
     }
 
     /**
+     * Get session, at the moment this will load signed cookies only.
+     */
+    static getSession = async (req, res) => {
+        try {
+            app.renderJson(req, res, req.signedCookies)
+        } catch (ex) {
+            logger.error("Routes", req.path, ex)
+        }
+    }
+
+    /**
      * Returns a report JSON for the specified API key.
      */
     static getReport = async (req, res) => {
@@ -75,10 +88,15 @@ class Routes {
 
         try {
             const apiKey: string = req.query.key || req.body.key
+            const remember: string = req.query.remember || req.body.remember
             const save: boolean = req.query.save || req.body.save
 
             if (!apiKey || apiKey.length < 20) {
                 throw new Error("Invalid API key")
+            }
+
+            if (remember == "1" || remember == "true") {
+                res.cookie("apiKey", apiKey, {signed: true, httpOnly: true})
             }
 
             const keyHash = apiKeyHash(apiKey)
