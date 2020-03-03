@@ -1,5 +1,4 @@
 html {
-    background: rgb(255, 255, 255);
     height: 100%;
 }
 
@@ -73,6 +72,10 @@ td.is-loss {
 
 .amazon-panel {
     margin-top: 40px;
+}
+
+.footer {
+    background: Transparent !important;
 }
 
 .footer-link {

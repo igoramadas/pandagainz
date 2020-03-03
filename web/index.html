@@ -8,6 +8,7 @@
         <link rel="shortcut icon" href="/favicon.png" />
         <link rel="stylesheet" href="assets/bulma.css" />
         <link rel="stylesheet" href="assets/pandagainz.css" />
+        <script src="/assets/cookieconsent.js"></script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9331973-5"></script>
         <script>
             window.dataLayer = window.dataLayer || []
@@ -44,7 +45,7 @@
                 <div class="column is-half has-text-right">
                     <label class="checkbox">
                         <input id="chk-remember" type="checkbox" />
-                        Remember this API key
+                        Remember API key
                     </label>
                 </div>
                 <div class="column is-half has-text-left">
@@ -127,6 +128,9 @@
                 <h4>How secure is it?</h4>
                 <ul>
                     <li>It does NOT store API keys provided by users.</li>
+                    <ul>
+                        <li class="is-italic">If you mark the "Remember API key check box", it will save the encrypted API key on a browser cookie.</li>
+                    </ul>
                     <li>It does NOT share API keys or reports with any 3rd party service</li>
                     <li>
                         It does NOT store any generated reports without the user's consent.
