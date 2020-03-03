@@ -69,6 +69,10 @@ td.is-loss {
     background-color: rgba(241, 70, 104, 0.5);
 }
 
+.amazon-panel {
+    margin-top: 40px;
+}
+
 .footer-link {
     margin-top: 10px;
 }
