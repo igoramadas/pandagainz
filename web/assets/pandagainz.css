@@ -70,12 +70,18 @@ td.is-loss {
     background-color: rgba(241, 70, 104, 0.5);
 }
 
+div.remember {
+    margin-bottom: 15px;
+    padding-right: 8px;
+}
+
 .amazon-panel {
-    margin-top: 40px;
+    margin-top: 35px;
 }
 
 .footer {
     background: Transparent !important;
+    padding-top: 20px;
 }
 
 .footer-link {
@@ -87,4 +93,26 @@ td.is-loss {
     background-size: 16px 16px;
     margin-top: 15px;
     padding-left: 18px;
+}
+
+#cookie-panel {
+    background: rgba(33, 33, 33, 0.8);
+    bottom: 0;
+    color: rgb(255, 255, 255);
+    left: 0;
+    position: fixed;
+    width: 100%;
+    transition: opacity 1000ms;
+}
+
+#cookie-panel.hidden {
+    opacity: 0;
+}
+
+#cookie-panel.visible {
+    opacity: 1;
+}
+
+#cookie-panel button {
+    margin-bottom: 10px;
 }

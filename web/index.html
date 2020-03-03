@@ -8,7 +8,6 @@
         <link rel="shortcut icon" href="/favicon.png" />
         <link rel="stylesheet" href="assets/bulma.css" />
         <link rel="stylesheet" href="assets/pandagainz.css" />
-        <script src="/assets/cookieconsent.js"></script>
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9331973-5"></script>
         <script>
             window.dataLayer = window.dataLayer || []
@@ -20,6 +19,7 @@
         </script>
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
         <script src="assets/router.js"></script>
+        <script src="assets/jscookie.js"></script>
         <script src="assets/pandagainz.js"></script>
     </head>
     <body>
@@ -41,23 +41,17 @@
                     </div>
                 </div>
             </div>
-            <div class="columns">
-                <div class="column is-half has-text-right">
-                    <label class="checkbox">
-                        <input id="chk-remember" type="checkbox" />
-                        Remember API key
-                    </label>
-                </div>
-                <div class="column is-half has-text-left">
-                    <a href="#apikey-help">Where can I find my API key?</a>
-                </div>
+            <div class="container has-text-right-tablet remember">
+                <label class="checkbox">
+                    <input id="chk-remember" type="checkbox" />
+                    Remember API key
+                </label>
+            </div>
+            <div class="container">
+                <a href="#apikey-help">Where can I find my API key?</a>
             </div>
 
-            <div class="container amazon-panel">
-                We highly recommend storing at least some of your crypto coins in a cold wallet!
-                <br />
-                You can find some on <a href="https://amzn.to/2VMouS5" title="Crypto wallets">Amazon.de</a>.
-            </div>
+            <div class="container amazon-panel">We recommend storing part of your crypto coins in a cold wallet. You can find some on <a href="https://amzn.to/2VMouS5" title="Crypto wallets">Amazon.de</a>.</div>
         </section>
         <section class="section wrapper" id="report-panel" style="display:none">
             <div class="container">
@@ -87,7 +81,7 @@
             <div class="content">
                 <ul>
                     <li>The report above is considering all transactions in EUR.</li>
-                    <li>The "Sold Profit" does not account for paid transaction fees.</li>
+                    <li>Sold Profit = Realized Profit, and it does not account for additional transaction fees.</li>
                     <li>Due to rounding, some of the values above might differ from what you see on your Bitpanda by a few cents.</li>
                     <li>
                         Want a bank account that you can automate and integrate with your crypto trading? Try
@@ -127,22 +121,22 @@
                 </ul>
                 <h4>How secure is it?</h4>
                 <ul>
-                    <li>It does NOT store API keys provided by users.</li>
+                    <li>It does NOT store or share API keys provided by users.</li>
                     <ul>
-                        <li class="is-italic">If you mark the "Remember API key check box", it will save the encrypted API key on a browser cookie.</li>
+                        <li class="is-italic">If you mark the "Remember API key" check box, it will save the encrypted API key on a browser cookie.</li>
                     </ul>
-                    <li>It does NOT share API keys or reports with any 3rd party service</li>
                     <li>
                         It does NOT store any generated reports without the user's consent.
                         <ul>
-                            <li class="is-italic">In the future users will be able to opt-in to have their reports stored on our database for future reference.</li>
+                            <li class="is-italic">In the future users will be able to opt-in to have their reports stored on a database for future reference.</li>
                         </ul>
                     </li>
                 </ul>
                 <h4>More technical details please</h4>
                 <ul>
                     <li>Written mostly in TypeScript, running on Node.js.</li>
-                    <li>Servers hosted on the Google Cloud.</li>
+                    <li>Tastes like vanilla. No React, no Vue, no Angular, no jQuery.</li>
+                    <li>Service hosted on Google Cloud, but dockerized it can run almost anywhere.</li>
                 </ul>
             </div>
         </section>
@@ -175,5 +169,16 @@
                 <a href="https://pandagainz.com" title="PandaGainz">https://pandagainz.com</a>
             </div>
         </footer>
+
+        <div id="cookie-panel" class="hidden">
+            <div class="wrapper columns">
+                <div class="column has-text-left-tablet">
+                    <span class="is-size-7">This website might store cookies on your web browser for analytics, statistics and usability features. Are you OK with it?</span>
+                </div>
+                <div class="column is-one-fifth">
+                    <button id="but-cookie" class="button is-rounded is-pulled-right-mobile-only is-size-7">Accept cookies</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
