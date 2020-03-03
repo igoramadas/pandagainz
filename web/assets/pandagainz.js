@@ -11,6 +11,8 @@ class PG {
             }
         }
 
+        await PG.getSession()
+
         // Init routes and events.
         PG.setRoutes()
         PG.setEvents()
@@ -81,6 +83,7 @@ class PG {
     static dom = {
         inputPanel: null,
         txtApiKey: null,
+        chkRemember: null,
         butGetReport: null,
         icoGetReport: null,
 
@@ -147,9 +150,32 @@ class PG {
     // BUSINESS LOGIC AND ACTIONS
     // --------------------------------------------------------------------------
 
+    // Fetch saved session and cookie data from server.
+    static getSession = async () => {
+        const options = {
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        try {
+            const res = await fetch("/session", options)
+            const cookies = await res.json()
+
+            if (cookies.apiKey) {
+                PG.dom.txtApiKey.value = cookies.apiKey
+                PG.dom.chkRemember.checked = true
+            }
+        } catch (ex) {
+            console.error(ex)
+        }
+    }
+
     // Fetch report from server.
     static getReport = async (apiKey) => {
-        const url = `/api/report?key=${encodeURIComponent(apiKey)}`
+        const url = `/api/report?key=${encodeURIComponent(apiKey)}&remember=${PG.dom.chkRemember.checked}`
         const options = {
             method: "GET",
             mode: "cors",

@@ -1,6 +1,6 @@
 {
     "name": "pandagainz",
-    "version": "20.10.212",
+    "version": "20.10.216",
     "description": "Calculate your profit (or losses) on Bitpanda.",
     "author": "Igor Ramadas <igor@devv.com>",
     "homepage": "https://pandagainz.com",
@@ -21,6 +21,7 @@
         "axios": "^0.19.2",
         "anyhow": "^1.5.1",
         "body-parser": "^1.19.0",
+        "cookie-parser": "^1.4.4",
         "expresser": "^4.2.0",
         "mongodb": "^3.5.4",
         "jaul": "^1.3.1",
