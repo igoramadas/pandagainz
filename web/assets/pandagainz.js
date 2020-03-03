@@ -66,14 +66,20 @@ class PG {
                 PG.dom.txtApiKey.focus()
             }
         }
-        PG.dom.txtApiKey.addEventListener("keyup", function(event) {
-            PG.dom.butGetReport.disabled = PG.dom.txtApiKey.value.length < 20
 
-            if (event.keyCode === 13) {
-                event.preventDefault()
-                PG.dom.butGetReport.click()
-            }
-        })
+        // Validate API key input.
+        PG.dom.txtApiKey.addEventListener("keyup", PG.txtApiKeyValidate)
+        PG.txtApiKeyValidate()
+    }
+
+    // On key up on the input
+    static txtApiKeyValidate = function(event) {
+        PG.dom.butGetReport.disabled = PG.dom.txtApiKey.value.length < 20
+
+        if (event && event.keyCode === 13) {
+            event.preventDefault()
+            PG.dom.butGetReport.click()
+        }
     }
 
     // DOM MANIPULATION
