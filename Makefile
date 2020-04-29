@@ -28,7 +28,7 @@ run:
 
 update:
 	-ncu -u
-	npm version $(shell date '+%y.%-V.%u%H') --force --allow-same-version --no-git-tag-version
+	npm version $(shell date '+%y.%-V%u.%-d%H%M') --force --allow-same-version --no-git-tag-version
 	npm install
 	$(TSC)
 

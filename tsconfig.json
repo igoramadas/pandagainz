@@ -6,6 +6,7 @@
         "target": "es2018",
         "module": "commonjs",
         "moduleResolution": "node",
+        "esModuleInterop": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
         "declaration": true
