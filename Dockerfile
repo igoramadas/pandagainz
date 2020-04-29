@@ -2,8 +2,7 @@
 FROM node:alpine AS pandagainz-builder
 WORKDIR /app
 COPY . .
-RUN npm install
-RUN node_modules/.bin/tsc
+RUN npm install && node_modules/.bin/tsc
 
 # DEPENDENCIES
 FROM node:alpine AS pandagainz-dependencies
