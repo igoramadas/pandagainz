@@ -34,12 +34,12 @@ class PG {
     static setRoutes = () => {
         PG.router = new Router({
             mode: "hash",
-            page404: function(path) {
+            page404: function (path) {
                 console.log('"/' + path + '" Page not found')
             }
         })
 
-        PG.router.add("", function() {
+        PG.router.add("", function () {
             PG.dom.inputPanel.getElementsByClassName("loading")[0].style.display = "none"
             PG.dom.inputPanel.getElementsByClassName("button")[0].style.display = ""
 
@@ -47,20 +47,20 @@ class PG {
             document.title = "PandaGainz"
         })
 
-        PG.router.add("report/(:any)", function(apiKey) {
+        PG.router.add("report/(:any)", function (apiKey) {
             PG.dom.inputPanel.getElementsByClassName("button")[0].style.display = "none"
             PG.dom.inputPanel.getElementsByClassName("loading")[0].style.display = ""
 
             PG.getReport(apiKey)
         })
 
-        PG.router.add("apikey-help", function() {
+        PG.router.add("apikey-help", function () {
             PG.dom.apikeyHelpPanel.getElementsByClassName("screenshot")[0].src = "/images/apikey.png"
             PG.switchPanel(PG.dom.apikeyHelpPanel)
             document.title = "PandaGainz - API key help"
         })
 
-        PG.router.add("about", function() {
+        PG.router.add("about", function () {
             PG.switchPanel(PG.dom.aboutPanel)
             document.title = "PandaGainz - About"
         })
@@ -71,7 +71,7 @@ class PG {
 
     // Bind events to inputs and
     static setEvents = () => {
-        PG.dom.butGetReport.onclick = function() {
+        PG.dom.butGetReport.onclick = function () {
             if (PG.dom.txtApiKey.value && PG.dom.txtApiKey.value.length >= 20) {
                 PG.router.navigateTo(`report/${PG.dom.txtApiKey.value}`)
             } else {
@@ -84,7 +84,7 @@ class PG {
         PG.txtApiKeyValidate()
 
         // Cookie notice.
-        PG.dom.butCookie.onclick = function() {
+        PG.dom.butCookie.onclick = function () {
             Cookies.set("cookieconsent", "1", {expires: 999})
             PG.dom.cookiePanel.classList.remove("visible")
             PG.dom.cookiePanel.classList.add("hidden")
@@ -92,7 +92,7 @@ class PG {
     }
 
     // On key up on the input
-    static txtApiKeyValidate = function(event) {
+    static txtApiKeyValidate = function (event) {
         PG.dom.butGetReport.disabled = PG.dom.txtApiKey.value.length < 20
 
         if (event && event.keyCode === 13) {
