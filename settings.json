@@ -5,7 +5,7 @@
 
 {
     "app": {
-        // Name of this service, will also be used as the device name when connecting to bunq.
+        // Name of this service.
         "title": "PandaGainz",
         // Paths to web assets and HTML.
         "publicPath": "./web/",
