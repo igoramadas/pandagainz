@@ -2,7 +2,6 @@
 
 import {apiKeyHash} from "./utils"
 import bitpanda = require("./bitpanda")
-import database = require("./database")
 import expresser = require("expresser")
 import logger = require("anyhow")
 import rateLimiterFlex = require("rate-limiter-flexible")
@@ -35,7 +34,6 @@ class Routes {
         app.get("/session", Routes.getSession)
         app.get("/api/report", Routes.getReport)
         app.post("/api/report", Routes.getReport)
-        app.delete("/api/report", Routes.deleteReport)
     }
 
     /**
@@ -89,7 +87,6 @@ class Routes {
         try {
             const apiKey: string = req.query.key || req.body.key
             const remember: string = req.query.remember || req.body.remember
-            const save: boolean = req.query.save || req.body.save
 
             if (!apiKey || apiKey.length < 20) {
                 throw new Error("Invalid API key")
@@ -104,41 +101,10 @@ class Routes {
 
             logger.info("Routes.getReport", keyHash)
             app.renderJson(req, res, result)
-
-            if (save) {
-                await database.addReport(apiKey, result)
-            }
         } catch (ex) {
             const status = ex.response ? ex.response.status : 500
             const error = status == 401 ? "Invalid API key or missing required API scopes" : ex
             logger.error("Routes.getReport", ex)
-            app.renderError(req, res, error, status)
-        }
-    }
-
-    /**
-     * Removes reports for the specified API key.
-     */
-    static deleteReport = async (req, res) => {
-        const rateOk = await Routes.checkRateLimit(req, res)
-        if (!rateOk) return false
-
-        try {
-            const apiKey: string = req.query.key || req.body.key
-
-            if (!apiKey || apiKey.length < 20) {
-                throw new Error("Invalid API key")
-            }
-
-            const keyHash = apiKeyHash(apiKey)
-            const count = await database.deleteReports(apiKey)
-
-            logger.info("Routes.deleteReports", keyHash, `Deleted ${count} reports`)
-            app.renderJson(req, res, {count: count})
-        } catch (ex) {
-            const status = ex.response ? ex.response.status : 500
-            const error = status == 401 ? "Invalid API key or missing required API scopes" : ex
-            logger.error("Routes.deleteReport", ex)
             app.renderError(req, res, error, status)
         }
     }

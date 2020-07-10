@@ -15,9 +15,6 @@ import setmeup = require("setmeup")
 setmeup.load()
 setmeup.load("settings.private.json")
 
-import database = require("./database")
-database.init()
-
 import expresser = require("expresser")
 expresser.app.init()
 
