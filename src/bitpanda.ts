@@ -295,7 +295,7 @@ class Bitpanda {
 
                     // Reached the amount sold? Remove extra so we can properly calculate the average.
                     if (matchBuyCount > sellCount) {
-                        amount -= matchBuyCount - amount
+                        amount -= matchBuyCount - sellCount
                     }
 
                     arrPricePaid.push([amount, trade.cost / trade.assetAmount])
