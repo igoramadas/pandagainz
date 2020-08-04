@@ -32,10 +32,4 @@ update:
 	npm install
 	$(TSC)
 
-deploy-git:
-	npm version $(shell date '+%y.%-V%u.%-d%H%M') --force --allow-same-version
-	git push
-	git push --tags
-	npm publish
-
 .PHONY: docs
