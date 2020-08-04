@@ -263,7 +263,11 @@ class Bitpanda {
             if (wallet.buy.length > 0) {
                 const arrBuy = []
                 for (let trade of wallet.buy) {
-                    arrBuy.push([trade.assetAmount, trade.cost / trade.assetAmount])
+                    if (trade.assetAmount) {
+                        arrBuy.push([trade.assetAmount, trade.cost / trade.assetAmount])
+                    } else {
+                        logger.warn("Bitpanda.getReport", "No assetAmount", JSON.stringify(trade, null, 0))
+                    }
                 }
                 wallet.totalBuy = _.sumBy(wallet.buy, "cost")
             }
@@ -272,7 +276,11 @@ class Bitpanda {
             if (wallet.sell.length > 0) {
                 const arrSell = []
                 for (let trade of wallet.sell) {
-                    arrSell.push([trade.assetAmount, trade.cost / trade.assetAmount])
+                    if (trade.assetAmount) {
+                        arrSell.push([trade.assetAmount, trade.cost / trade.assetAmount])
+                    } else {
+                        logger.warn("Bitpanda.getReport", "No assetAmount", JSON.stringify(trade, null, 0))
+                    }
                 }
                 wallet.totalSell = _.sumBy(wallet.sell, "cost")
             }
@@ -288,8 +296,9 @@ class Bitpanda {
                 let i = 0
 
                 // Calculate how much was paid for the assets that were sold.
-                while (matchBuyCount < sellCount) {
+                while (matchBuyCount < sellCount && wallet.buy[i]) {
                     let trade = wallet.buy[i]
+
                     let amount = trade.assetAmount
                     matchBuyCount += amount
 

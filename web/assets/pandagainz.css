@@ -11,15 +11,6 @@ body {
     width: auto;
 }
 
-h1 {
-    margin-left: 50px;
-}
-
-h1 .tag {
-    position: relative;
-    top: -25px;
-}
-
 .wrapper {
     margin: auto;
     max-width: 960px;
@@ -68,6 +59,14 @@ td.is-profit {
 
 td.is-loss {
     background-color: rgba(241, 70, 104, 0.5);
+}
+
+td.cell-profit {
+    color: rgb(18, 108, 48);
+}
+
+td.cell-loss {
+    color: rgb(120, 20, 40);
 }
 
 div.remember {

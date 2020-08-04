@@ -163,11 +163,19 @@ class PG {
         const tr = document.createElement("tr")
         const td = []
 
-        for (let value of tdValues) {
+        for (let i = 0; i < tdValues.length; i++) {
+            let value = tdValues[i]
             if (!value) value = "0"
 
-            let classInfo = isNaN(value) ? "" : ` class="has-text-right"`
-            td.push(`<td${classInfo}>${value}</td>`)
+            let classInfo = isNaN(value) ? "" : "has-text-right"
+
+            // Last cell is profit. Colour it based on positive or negative values.
+            if (i == tdValues.length - 1) {
+                if (value > 0) classInfo += " cell-profit"
+                if (value < 0) classInfo += " cell-loss"
+            }
+
+            td.push(`<td class="${classInfo}">${value}</td>`)
         }
 
         tr.innerHTML = td.join("")
@@ -234,10 +242,12 @@ class PG {
         let totalFees = 0
 
         for (let wallet of report.wallets) {
-            const sellProfit = wallet.sellProfit ? wallet.sellProfit.toFixed(2) : 0
-            const currentValue = wallet.currentValue.toFixed(2)
-            const fees = wallet.totalFees.toFixed(2)
-            const tr = PG.createTableRow(wallet.symbol, wallet.buy.length, wallet.totalBuy, wallet.sell.length, wallet.totalSell, currentValue, fees, sellProfit)
+            const sellProfit = wallet.sellProfit ? PG.rounder(wallet.sellProfit) : 0
+            const currentValue = PG.rounder(wallet.currentValue)
+            const fees = PG.rounder(wallet.totalFees)
+            const tBuy = PG.rounder(wallet.totalBuy)
+            const tSell = PG.rounder(wallet.totalSell)
+            const tr = PG.createTableRow(wallet.symbol, wallet.buy.length, tBuy, wallet.sell.length, tSell, currentValue, fees, sellProfit)
             PG.dom.reportRows.append(tr)
 
             totalValue += wallet.currentValue
@@ -246,15 +256,15 @@ class PG {
 
         if (report.profit >= 0) {
             PG.dom.tableTotalProfit.className = "totals is-profit"
-            PG.dom.tableTotalProfit.innerText = `Profit: ${report.profit.toFixed(2)}`
+            PG.dom.tableTotalProfit.innerText = `Profit: ${PG.rounder(report.profit)}`
         } else {
             PG.dom.tableTotalProfit.className = "totals is-loss"
-            PG.dom.tableTotalProfit.innerText = `Loss: ${report.profit.toFixed(2)}`
+            PG.dom.tableTotalProfit.innerText = `Loss: ${PG.rounder(report.profit)}`
         }
 
-        PG.dom.tableTotalDeposit.innerText = (report.deposit - report.withdrawal).toFixed(2)
-        PG.dom.tableTotalValue.innerText = totalValue.toFixed(2)
-        PG.dom.tableTotalFees.innerText = totalFees.toFixed(2)
+        PG.dom.tableTotalDeposit.innerText = PG.rounder(report.deposit - report.withdrawal)
+        PG.dom.tableTotalValue.innerText = PG.rounder(totalValue)
+        PG.dom.tableTotalFees.innerText = PG.rounder(totalFees)
 
         PG.switchPanel(PG.dom.reportPanel)
         document.title = "PandaGainz - Report"
@@ -278,6 +288,11 @@ class PG {
 
         PG.setInnerText(PG.dom.errorPanel, "title", title)
         PG.switchPanel(PG.dom.errorPanel)
+    }
+
+    // Helper to round to 2 decimal digits.
+    static rounder = (value) => {
+        return Math.round(value * 100) / 100
     }
 }
 

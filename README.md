@@ -11,6 +11,6 @@ Some companies are charging a considerable amount of money to create such report
 - Vanilla-bare-metal-no-frills Javascript + HTML5 + CSS3 frontend
 - Reports can be generated as a user friendly table, or directly fetched as JSON
 - Reports and API keys are not stored or shared with anyone, and will never be
-- Calculations are done using the FIFO (first in first out) method
+- Calculations are done using the weighted average method
 
-**Please note that this tool is pretty much still on beta!** I haven't tested all use cases yet, and so far it will only work with EUR transactions. If you find bugs, please [create an issue](https://github.com/igoramadas/pandagainz/issues/new).
+Please note that I haven't tested all use cases yet, and it will only work with EUR based transactions. If you find bugs, please [create an issue](https://github.com/igoramadas/pandagainz/issues/new).
