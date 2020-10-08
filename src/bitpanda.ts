@@ -205,7 +205,7 @@ class Bitpanda {
             }
         }
 
-        // Parse trades and add them to the related wallets.
+        // Parse fiat transactions and add them to the related wallets.
         for (let t of data.fiatTransactions) {
             if (t.status != "finished") {
                 continue
@@ -222,31 +222,35 @@ class Bitpanda {
             if (!t.trade || t.trade.type != "trade") {
                 continue
             }
+        }
 
-            const trade = t.trade.attributes
+        // Parse trades and add them to the related wallets.
+        for (let t of data.trades) {
+            if (t.status != "finished") {
+                continue
+            }
             const info: Trade = {
-                id: t.trade.id,
-                assetAmount: parseFloat(trade.amount_cryptocoin),
-                assetPrice: parseFloat(trade.price),
-                cost: parseFloat(trade.amount_fiat),
-                timestamp: parseInt(trade.time.unix)
+                assetAmount: parseFloat(t.amount_cryptocoin),
+                assetPrice: parseFloat(t.price),
+                cost: parseFloat(t.amount_fiat),
+                timestamp: parseInt(t.time.unix)
             }
 
             // Buying or selling?
-            if (trade.type == "buy") {
-                wallets[trade.cryptocoin_id].buy.push(info)
+            if (t.type == "buy") {
+                wallets[t.cryptocoin_id].buy.push(info)
             } else {
-                wallets[trade.cryptocoin_id].sell.push(info)
+                wallets[t.cryptocoin_id].sell.push(info)
             }
 
             // Paid with BEST?
-            if (trade.bfc_used && trade.best_fee_collection) {
-                const att = trade.best_fee_collection.attributes
+            if (t.bfc_used && t.best_fee_collection) {
+                const att = t.best_fee_collection.attributes
                 info.fee = parseFloat(att.bfc_market_value_eur)
                 info.bestAmount = parseFloat(att.bfc_market_value_eur) / parseFloat(att.best_current_price_eur)
-                wallets[trade.cryptocoin_id].totalFees += info.fee
+                wallets[t.cryptocoin_id].totalFees += info.fee
             } else if (t.fee) {
-                wallets[trade.cryptocoin_id].totalFees += parseFloat(t.fee)
+                wallets[t.cryptocoin_id].totalFees += parseFloat(t.fee)
             }
         }
 
@@ -282,7 +286,7 @@ class Bitpanda {
                         logger.warn("Bitpanda.getReport", "No assetAmount", JSON.stringify(trade, null, 0))
                     }
                 }
-                wallet.totalSell = _.sumBy(wallet.sell, "cost")
+                wallet.totalSell = _.sumBy(wallet.sell, "cost") - _.sumBy(wallet.sell, "fee")
             }
 
             // How many assets were bought and sold? Calculate balance.

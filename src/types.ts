@@ -26,7 +26,6 @@ interface Payment {
  * Trade involving crypto or metal assets.
  */
 interface Trade {
-    id: string
     assetAmount: number
     assetPrice: number
     cost: number
