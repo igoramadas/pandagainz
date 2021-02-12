@@ -179,6 +179,9 @@ class Bitpanda {
         let totalProfit = 0
         let totalDeposit = 0
         let totalWithdrawal = 0
+        let depositCount = 0
+        let withdrawalCount = 0
+        let fiatBalance = 0
 
         // Get all the necessary data from Bitpanda.
         const data = {
@@ -220,6 +223,18 @@ class Bitpanda {
             sell: []
         }
 
+        // Calculate current fiat balance.
+        for (let fw of data.fiatWallets) {
+            if (fw.fiat_symbol == "EUR") {
+                fiatBalance += parseFloat(fw.balance)
+            } else {
+                const ref = data.ticker["USDT"] || data.ticker["ETH"]
+                const multi = ref.EUR / ref[fw.fiat_symbol]
+                const eurBalance = multi * parseFloat(fw.balance)
+                fiatBalance += eurBalance
+            }
+        }
+
         // Parse fiat transactions and add them to the related wallets.
         for (let t of data.fiatTransactions) {
             if (t.status != "finished") {
@@ -230,8 +245,10 @@ class Bitpanda {
             const eurAmount = parseFloat(t.amount) * parseFloat(t.to_eur_rate)
             if (t.type == "deposit") {
                 totalDeposit += eurAmount
+                depositCount++
             } else if (t.type == "withdrawal") {
                 totalWithdrawal += eurAmount
+                withdrawalCount++
             }
 
             if (!t.trade || t.trade.type != "trade") {
@@ -353,7 +370,10 @@ class Bitpanda {
             wallets: wallets as Wallet[],
             profit: totalProfit,
             deposit: totalDeposit,
-            withdrawal: totalWithdrawal
+            depositCount: depositCount,
+            withdrawal: totalWithdrawal,
+            withdrawalCount: withdrawalCount,
+            fiatBalance: fiatBalance
         }
 
         return result
@@ -366,12 +386,8 @@ class Bitpanda {
      * Calculate the weighted price average based on volume.
      */
     weightedAvg = (total: number, positions: Array<Array<number>>): number => {
-        if (total <= 0) {
-            return 0
-        }
-        if (positions.length == 1) {
-            return positions[0][1]
-        }
+        if (total <= 0) return 0
+        if (positions.length == 1) return positions[0][1]
 
         return positions.reduce((acc, next) => acc + next[0] * next[1], 0) / total
     }

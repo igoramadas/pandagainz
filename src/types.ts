@@ -7,7 +7,10 @@ interface PandaReport {
     keyHash?: string
     profit?: number
     deposit?: number
+    depositCount?: number
     withdrawal?: number
+    withdrawalCount?: number
+    fiatBalance?: number
     fees?: number
     wallets?: Wallet[]
 }

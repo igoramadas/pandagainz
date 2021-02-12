@@ -114,8 +114,10 @@ class PG {
 
         reportPanel: null,
         reportRows: null,
+
         tableTotalDeposit: null,
-        tableTotalValue: null,
+        tableTotalWithdrawal: null,
+        tableTotalBalance: null,
         tableTotalFees: null,
         tableTotalProfit: null,
 
@@ -254,6 +256,11 @@ class PG {
             totalFees += wallet.totalFees
         }
 
+        PG.dom.tableTotalDeposit.innerText = `Deposit: ${PG.rounder(report.deposit)}`
+        PG.dom.tableTotalWithdrawal.innerText = `Withdrawal: ${PG.rounder(report.withdrawal)}`
+        PG.dom.tableTotalBalance.innerText = PG.rounder(report.fiatBalance)
+        PG.dom.tableTotalFees.innerText = PG.rounder(totalFees)
+
         if (report.profit >= 0) {
             PG.dom.tableTotalProfit.className = "totals is-profit"
             PG.dom.tableTotalProfit.innerText = `Profit: ${PG.rounder(report.profit)}`
@@ -261,10 +268,6 @@ class PG {
             PG.dom.tableTotalProfit.className = "totals is-loss"
             PG.dom.tableTotalProfit.innerText = `Loss: ${PG.rounder(report.profit)}`
         }
-
-        PG.dom.tableTotalDeposit.innerText = PG.rounder(report.deposit - report.withdrawal)
-        PG.dom.tableTotalValue.innerText = PG.rounder(totalValue)
-        PG.dom.tableTotalFees.innerText = PG.rounder(totalFees)
 
         PG.switchPanel(PG.dom.reportPanel)
         document.title = "PandaGainz - Report"
