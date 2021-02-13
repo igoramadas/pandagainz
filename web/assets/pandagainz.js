@@ -277,6 +277,8 @@ class PG {
 
     // Oops, something went wrong...
     static showError = (code, title) => {
+        document.getElementsByClassName("loading")[0].style.display = "none"
+
         if (!title) {
             title = "Something went wrong"
         }
