@@ -2,9 +2,9 @@
 
 import {apiKeyHash} from "./utils"
 import bitpanda = require("./bitpanda")
+import cache = require("bitecache")
 import expresser = require("expresser")
 import logger = require("anyhow")
-import rateLimiterFlex = require("rate-limiter-flexible")
 const app = expresser.app
 const settings = require("setmeup").settings
 
@@ -23,33 +23,14 @@ class Routes {
         app.use(require("body-parser").json({type: "application/*+json"}))
         app.use(require("cookie-parser")(settings.app.cookieSecret))
 
-        // Create the rate limiter.
-        Routes.rateLimiter = new rateLimiterFlex.RateLimiterMemory({
-            points: settings.rateLimiter.points,
-            duration: settings.rateLimiter.duration
-        })
+        // Reports are cached for 5 minutes.
+        cache.setup("reports", settings.reports.cacheSeconds)
 
         // Bind routes.
         app.get("/", Routes.getHome)
         app.get("/session", Routes.getSession)
         app.get("/api/report", Routes.getReport)
         app.post("/api/report", Routes.getReport)
-    }
-
-    /**
-     * Helper to check rate limits on relevant endpoints.
-     */
-    static checkRateLimit = async (req, res): Promise<boolean> => {
-        const userAgent = req.headers["user-agent"].replace(/ /g, "")
-
-        try {
-            await Routes.rateLimiter.consume(`${req.ip}-${userAgent.toLowerCase()}`)
-            return true
-        } catch (ex) {
-            logger.warn("Routes", "Rate limited", req.ip, userAgent)
-            res.status(429).send("Too Many Requests")
-            return false
-        }
     }
 
     // ROUTE METHODS
@@ -81,25 +62,33 @@ class Routes {
      * Returns a report JSON for the specified API key.
      */
     static getReport = async (req, res) => {
-        const rateOk = await Routes.checkRateLimit(req, res)
-        if (!rateOk) return false
-
         try {
             const apiKey: string = req.query.key || req.body.key
-            const remember: string = req.query.remember || req.body.remember
 
+            // API key is mandatory.
             if (!apiKey || apiKey.length < 20) {
                 throw new Error("Invalid API key")
             }
 
-            if (remember == "1" || remember == "true") {
-                res.cookie("apiKey", apiKey, {signed: true, httpOnly: true})
+            const remember: string = req.query.remember || req.body.remember
+            const keyHash = apiKeyHash(apiKey)
+            const fromCache = cache.get("reports", keyHash)
+            let result: PandaReport
+
+            // Check if report already exists on cache first.
+            if (fromCache) {
+                result = fromCache
+                logger.info("Routes.getReport", keyHash, "From cache")
+            } else {
+                if (remember == "1" || remember == "true") {
+                    res.cookie("apiKey", apiKey, {signed: true, httpOnly: true})
+                }
+
+                result = await bitpanda.getReport(apiKey.replace(/[^a-zA-Z0-9]/gi, ""))
+                cache.set("reports", keyHash, result)
+                logger.info("Routes.getReport", keyHash)
             }
 
-            const keyHash = apiKeyHash(apiKey)
-            const result = await bitpanda.getReport(apiKey.replace(/[^a-zA-Z0-9]/gi, ""))
-
-            logger.info("Routes.getReport", keyHash)
             app.renderJson(req, res, result)
         } catch (ex) {
             const status = ex.response ? ex.response.status : 500

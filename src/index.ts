@@ -15,7 +15,11 @@ logger.unhandledRejections = true
 // Load settings.
 import setmeup = require("setmeup")
 setmeup.load()
-setmeup.load("settings.private.json")
+
+// Debug enabled?
+if (setmeup.settings.debug) {
+    logger.levels.push("debug")
+}
 
 // Port set via the PORT env?
 if (process.env.PORT) {

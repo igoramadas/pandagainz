@@ -175,7 +175,8 @@ class Bitpanda {
      * Get a full report by matching wallets, trades and transactions.
      */
     getReport = async (apiKey: string): Promise<PandaReport> => {
-        let wallets = {}
+        let bestWallet: Wallet
+        let wallets: {[id: string]: Wallet} = {}
         let totalProfit = 0
         let totalDeposit = 0
         let totalWithdrawal = 0
@@ -196,11 +197,12 @@ class Bitpanda {
         logger.debug(JSON.stringify(data, null, 2))
 
         // Create the resulting wallets array with the correct asset IDs.
-        for (let wallet of data.wallets) {
-            if (!wallets[wallet.cryptocoin_id]) {
-                wallets[wallet.cryptocoin_id] = {
-                    symbol: wallet.cryptocoin_symbol,
-                    balance: parseFloat(wallet.balance),
+        for (let w of data.wallets) {
+            if (!wallets[w.cryptocoin_id]) {
+                const wallet: Wallet = {
+                    id: w.cryptocoin_id,
+                    symbol: w.cryptocoin_symbol,
+                    balance: parseFloat(w.balance),
                     currentValue: 0,
                     totalBuy: 0,
                     totalSell: 0,
@@ -208,11 +210,18 @@ class Bitpanda {
                     buy: [],
                     sell: []
                 }
+
+                wallets[w.cryptocoin_id] = wallet
+
+                if (wallet.symbol == "BEST") {
+                    bestWallet = wallet
+                }
             }
         }
 
         // Add default OTHER wallet (for uknown transactions).
         wallets["UNKNOWN"] = {
+            id: "-1",
             symbol: "UNKNOWN",
             balance: 0,
             currentValue: 0,
@@ -277,7 +286,7 @@ class Bitpanda {
             // Buying or selling?
             if (t.type == "buy") {
                 wallets[t.cryptocoin_id].buy.push(info)
-            } else {
+            } else if (t.type == "sell") {
                 wallets[t.cryptocoin_id].sell.push(info)
             }
 
@@ -286,6 +295,13 @@ class Bitpanda {
                 const att = t.best_fee_collection.attributes
                 info.fee = att.bfc_market_value_eur ? parseFloat(att.bfc_market_value_eur) : 0
                 info.bestAmount = parseFloat(att.bfc_market_value_eur) / parseFloat(att.best_current_price_eur)
+
+                bestWallet.sell.push({
+                    assetAmount: info.bestAmount,
+                    assetPrice: parseFloat(att.best_current_price_eur),
+                    cost: 0,
+                    timestamp: parseInt(t.time.unix)
+                })
             } else {
                 info.fee = t.fee ? parseFloat(t.fee) : 0
             }
@@ -295,7 +311,7 @@ class Bitpanda {
 
         // Iterate wallets to calculate trading profits or losses.
         for (let w of Object.values(wallets)) {
-            const wallet = w as any
+            const wallet = w as Wallet
 
             // No transactions? Stop here.
             if (wallet.buy.length == 0 && wallet.sell.length == 0) {
@@ -361,13 +377,16 @@ class Bitpanda {
             }
         }
 
-        // We only want the useful wallet data on result.
-        wallets = _.filter(Object.values(wallets), (w) => {
-            return w.buy.length > 0 || w.sell.length > 0
-        })
+        // Filter only wallets that had transactions.
+        const activeWallets = _.filter(Object.values(wallets), (w) => w.buy.length > 0 || w.sell.length > 0)
+
+        // The BEST profit takes into account trade fees paid with BEST, so BEST usage was essentially counted twice.
+        // Here we add these feed back to the total profit.
+        bestWallet.sell = bestWallet.sell.filter((t) => t.cost > 0)
+        totalProfit += _.sumBy(activeWallets, "totalFees")
 
         const result: PandaReport = {
-            wallets: wallets as Wallet[],
+            wallets: activeWallets,
             profit: totalProfit,
             deposit: totalDeposit,
             depositCount: depositCount,

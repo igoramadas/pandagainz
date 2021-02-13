@@ -41,11 +41,14 @@ interface Trade {
  * Wallet with trades.
  */
 interface Wallet {
+    id: string
     symbol: string
+    balance: number
+    currentValue: number
     buy: Trade[]
     sell: Trade[]
-    balance: number
     totalBuy?: number
     totalSell?: number
+    totalFees?: number
     sellProfit?: number
 }
