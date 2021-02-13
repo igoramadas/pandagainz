@@ -12,10 +12,11 @@
         "declaration": true
     },
     "typedocOptions": {
+        "entryPoints": ["./src/"],
         "excludeExternals": true,
         "excludePrivate": true,
-        "mode": "modules",
         "name": "PandaGainz",
-        "out": "docs"
+        "out": "docs",
+        "gaID": "UA-9331973-4"
     }
 }
