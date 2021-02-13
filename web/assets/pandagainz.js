@@ -147,7 +147,7 @@ class PG {
 
         if (PG.activePanel) {
             PG.activePanel.classList.remove("active")
-            setTimeout(transition, 305)
+            setTimeout(transition, 250)
         } else {
             panel.style.display = "block"
             panel.classList.add("active")
