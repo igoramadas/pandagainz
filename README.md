@@ -7,7 +7,7 @@ PandaGainz allows [Bitpanda](https://www.bitpanda.com/?ref=178474763475574477) u
 Some companies are charging a considerable amount of money to create such reports. People need it mostly for tax purposes. Using PandaGainz you can have a basic report for free :-)
 
 - Runs on Node.js, backend mostly TypeScript
-- Dockerfile sample so you can build your own image
+- Dockerfile available, easy to build and run
 - Vanilla-bare-metal-no-frills Javascript + HTML5 + CSS3 frontend
 - Reports can be generated as a user friendly table, or directly fetched as JSON
 - Reports and API keys are not stored or shared with anyone, and will never be
