@@ -19,13 +19,8 @@
         // Default API page size.
         "pageSize": 200
     },
-    "general": {
-        // Use UTF8 as default encoding for files and streams.
-        "encoding": "utf8"
-    },
-    // Limit API requests to a maximum of 15 per minute.
-    "rateLimiter": {
-        "points": 15,
-        "duration": 60
+    "reports": {
+        // Cache reports for 5 minutes.
+        "cacheSeconds": 300
     }
 }

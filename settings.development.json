@@ -6,8 +6,6 @@
         "port": 3311,
         "url": "http://pandagainz.local:3311/"
     },
-    "database": {
-        "enabled": true,
-        "name": "pandagainz-dev"
-    }
+    // Enable debugging on dev.
+    "debug": true
 }

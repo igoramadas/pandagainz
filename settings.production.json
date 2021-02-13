@@ -5,9 +5,6 @@
         "port": 8080,
         "url": "https://pandagainz.com/"
     },
-    // Database disabled in production while features are not fully ready.
-    "database": {
-        "enabled": false,
-        "name": "pandagainz"
-    }
+    // Disable debugging on production.
+    "debug": false
 }
