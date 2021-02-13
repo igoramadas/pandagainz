@@ -6,7 +6,7 @@
         <meta name="description" content="Free Bitpanda reports, calculate your profits on your crypto wallets. Can be used for tax purposes." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" href="/favicon.png" />
-        <link rel="stylesheet" href="assets/bulma.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
         <link rel="stylesheet" href="assets/pandagainz.css" />
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-9331973-5"></script>
         <script>
@@ -18,8 +18,8 @@
             gtag("config", "UA-9331973-5")
         </script>
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
         <script src="assets/router.js"></script>
-        <script src="assets/jscookie.js"></script>
         <script src="assets/pandagainz.js"></script>
     </head>
     <body>
@@ -34,9 +34,6 @@
                 </div>
                 <div class="column is-one-fifth">
                     <button id="but-get-report" class="button is-rounded is-primary" disabled>Generate report</button>
-                    <div class="loading" style="display: none">
-                        <i class="fas fa-spinner fa-pulse fa-2x"></i>
-                    </div>
                 </div>
             </div>
             <div class="container has-text-right-tablet remember">
@@ -51,6 +48,9 @@
 
             <div class="container amazon-panel">We recommend storing part of your crypto coins in a cold wallet. You can find some on <a href="https://amzn.to/2VMouS5" title="Crypto wallets">Amazon.de</a>.</div>
         </section>
+        <div class="loading" style="display: none">
+            <i class="fas fa-spinner fa-pulse fa-3x"></i>
+        </div>
         <section class="section wrapper" id="report-panel" style="display: none">
             <div class="container">
                 <table class="table is-fullwidth is-bordered">
@@ -60,14 +60,14 @@
                             <th class="has-text-centered" colspan="2">Buy Orders / Value</th>
                             <th class="has-text-centered" colspan="2">Sell Orders / Value</th>
                             <th class="has-text-right">Balance</th>
-                            <th class="has-text-right">Fees</th>
+                            <th class="has-text-right">Paid Fees</th>
                             <th class="has-text-right">Sold Profit</th>
                         </tr>
                     </thead>
                     <tbody id="report-rows"></tbody>
                     <tfoot>
                         <tr>
-                            <td>TOTAL</td>
+                            <td class="totals">EUR</td>
                             <td id="table-total-deposit" class="totals" colspan="2"></td>
                             <td id="table-total-withdrawal" class="totals" colspan="2"></td>
                             <td id="table-total-balance" class="totals"></td>
@@ -80,6 +80,7 @@
             <div class="content">
                 <ul>
                     <li>The report above is considering all transactions in EUR.</li>
+                    <li>Fees paid with BEST are counted as a loss on the BEST wallet.</li>
                     <li>Sold Profit = realized profit - trading fees, does not account for additional bank / credit card fees.</li>
                     <li>Due to rounding, some of the values above might differ from what you see on your Bitpanda by a few cents.</li>
                 </ul>
@@ -131,8 +132,11 @@
                 <ul>
                     <li>Written mostly in TypeScript, running on Node.js.</li>
                     <li>Tastes like vanilla. No React, no Vue, no Angular, no jQuery.</li>
-                    <li>Service hosted on Google Cloud, but dockerized it can run almost anywhere.</li>
+                    <li>Service hosted on Google Cloud, but you know... Docker... it can run anywhere.</li>
                 </ul>
+            </div>
+            <div class="container">
+                <button class="button" onclick="history.back()">Back</button>
             </div>
         </section>
         <section class="section wrapper" id="error-panel" style="display: none">

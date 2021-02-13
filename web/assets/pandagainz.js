@@ -40,16 +40,16 @@ class PG {
         })
 
         PG.router.add("", function () {
-            PG.dom.inputPanel.getElementsByClassName("loading")[0].style.display = "none"
-            PG.dom.inputPanel.getElementsByClassName("button")[0].style.display = ""
+            document.getElementsByClassName("loading")[0].style.display = "none"
+            PG.dom.inputPanel.getElementsByClassName("button")[0].disabled = false
 
             PG.switchPanel(PG.dom.inputPanel)
             document.title = "PandaGainz"
         })
 
         PG.router.add("report/(:any)", function (apiKey) {
-            PG.dom.inputPanel.getElementsByClassName("button")[0].style.display = "none"
-            PG.dom.inputPanel.getElementsByClassName("loading")[0].style.display = ""
+            document.getElementsByClassName("loading")[0].style.display = ""
+            PG.dom.inputPanel.getElementsByClassName("button")[0].disabled = true
 
             PG.getReport(apiKey)
         })
@@ -238,6 +238,8 @@ class PG {
 
     // Process the report.
     static processReport = async (report) => {
+        document.getElementsByClassName("loading")[0].style.display = "none"
+
         PG.dom.reportRows.innerHTML = ""
 
         let totalValue = 0
