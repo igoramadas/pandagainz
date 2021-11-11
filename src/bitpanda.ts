@@ -119,7 +119,7 @@ class Bitpanda {
     }
 
     /**
-     * Get list of crypto wallets from the user
+     * Get list of crypto wallets from the user.
      */
     getWallets = async (apiKey: string): Promise<any> => {
         try {
@@ -149,7 +149,7 @@ class Bitpanda {
             const result = await this.makeRequest(options)
             return _.map(result.data, "attributes")
         } catch (ex) {
-            logger.debug("Bitpanda.getTrades", "Failed")
+            logger.debug("Bitpanda.getFiatWallets", "Failed")
             throw ex
         }
     }
@@ -166,7 +166,7 @@ class Bitpanda {
             const result = await this.makeRequest(options)
             return result
         } catch (ex) {
-            logger.debug("Bitpanda.getTrades", "Failed")
+            logger.debug("Bitpanda.getTicker", "Failed")
             throw ex
         }
     }
