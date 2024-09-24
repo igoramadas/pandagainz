@@ -27,7 +27,7 @@ run:
 	npm start
 
 update:
-	-ncu -u
+	-ncu -u -x axios,chalk
 	npm version $(shell date '+%y.%-V%u.%-d%H%M') --force --allow-same-version --no-git-tag-version
 	npm install
 	$(TSC)
