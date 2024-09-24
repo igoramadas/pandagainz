@@ -1,6 +1,8 @@
-# PandaGainz
+# PandaGainz for sale!
 
-**Official website: https://pandagainz.com**
+| https://pandagainz.com/                                                                                                                     |
+| ------------------------------------------------------------------------------------------------------------------------------------------- |
+| _If you're interested, I'm selling the domain pandagainz.com, as I have no time to keep the application up-to-date. Contact: igor@devv.com_ |
 
 PandaGainz allows [Bitpanda](https://www.bitpanda.com/?ref=178474763475574477) users to generate a small trading report, which can be used as a helper to create their tax reports or simply to keep track of their trading performance.
 
