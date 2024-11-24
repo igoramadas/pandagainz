@@ -3,6 +3,7 @@
 | https://pandagainz.com/                                                                                                                     |
 | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | _If you're interested, I'm selling the domain pandagainz.com, as I have no time to keep the application up-to-date. Contact: igor@devv.com_ |
+| _I'm also open to switching this project's ownership to someone else._                                                                      |
 
 PandaGainz allows [Bitpanda](https://www.bitpanda.com/?ref=178474763475574477) users to generate a small trading report, which can be used as a helper to create their tax reports or simply to keep track of their trading performance.
 
